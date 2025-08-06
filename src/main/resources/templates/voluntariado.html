@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<meta name="description" content="Plataforma interactiva de experiencias culturales con tecnología IoT" />
+	<meta name="author" content="TuNombre" />
+	<title>Voluntariado en Museos - Museando</title>
+
+	<link rel="icon" href="favicon.ico" />
+	<link
+		href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+		rel="stylesheet" />
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+	<link th:href="@{/css/estilos.css}" rel="stylesheet">
+	<style>
+		.btn-voluntariado {
+			background-color: #0d6efd;
+			border-color: #0d6efd;
+		}
+
+		.btn-voluntariado:hover {
+			background-color: #0b5ed7;
+			border-color: #0b5ed7;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="d-flex flex-column min-vh-100">
+
+		<!-- Barra de navegación -->
+		<header th:insert="~{fragmentos/menu :: menu-principal}"></header>
+
+		<!-- Contenido principal -->
+		<main class="container my-5 pt-5" style="min-height: calc(100vh - 280px);">
+			<div class="card shadow-lg p-5 rounded-4 border-0 bg-light">
+
+				<h1 class="mb-4 fw-bold text-primary display-5">
+					<i class="fas fa-hands-helping me-2"></i>Voluntariado en Museos
+				</h1>
+
+				<p class="fs-5 text-dark mb-3 text-justify">
+					Participar como voluntario en un museo es una forma maravillosa de acercarte al arte, la historia y
+					la cultura de manera activa y significativa.
+					A través del voluntariado, puedes apoyar en actividades educativas, guiar a visitantes, colaborar en
+					eventos y ayudar a difundir nuestro patrimonio cultural.
+				</p>
+
+
+				<section class="mb-4">
+					<h2 class="h4 text-primary mb-3">¿Por qué ser voluntario?</h2>
+					<ul class="fs-6 text-dark">
+						<li>Aprender y conocer más sobre la historia, arte y ciencia de los museos.</li>
+						<li>Desarrollar habilidades sociales y comunicativas.</li>
+						<li>Formar parte de una comunidad cultural comprometida.</li>
+						<li>Aportar al desarrollo y difusión del patrimonio local.</li>
+					</ul>
+				</section>
+
+				<section class="mb-4">
+					<h2 class="h4 text-primary mb-3">¿Quiénes pueden participar?</h2>
+					<p class="fs-6 text-dark">
+						Cualquier persona mayor de 16 años con interés y ganas de contribuir puede ser voluntaria.
+						No necesitas experiencia previa, solo entusiasmo y compromiso.
+					</p>
+				</section>
+
+				<div class="text-center mt-5" th:if="${not #authorization.expression('isAuthenticated()')}">
+				  <a th:href="@{/login}" class="btn btn-voluntariado btn-lg px-5">
+				    <i class="fas fa-paper-plane me-2"></i> Aplicar como voluntario
+				  </a>
+				</div>
+
+			</div>
+		</main>
+
+		<!-- Footer -->
+		<footer class="footer" th:insert="~{fragmentos/pie :: pie-pagina}"></footer>
+
+
+	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="Plataforma interactiva de experiencias culturales con tecnología IoT">
+	<meta name="author" content="TuNombre">
+
+	<title>Lista Salas</title>
+
+	<link rel="icon" href="favicon.ico">
+	<link
+		href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+		rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+	<link th:href="@{/css/estilos.css}" rel="stylesheet">
+	<link th:href="@{/css/listas.css}" rel="stylesheet">
+</head>
+
+<body>
+	<div class="d-flex flex-column min-vh-100">
+		<!-- Barra de navegación -->
+		<header th:insert="~{fragmentos/menu :: menu-principal}"></header>
+
+		<!-- Contenido principal -->
+		<main class="container my-5">
+			<div class="lista-contenedor">
+				<div class="lista-header">
+					<h2><i class="fas fa-door-open me-2"></i>Listado de Salas</h2>
+				</div>
+				<div class="lista-toolbar">
+					<a th:href="@{/salas/nueva}" class="btn-lista btn-lista-primary">
+						<i class="fas fa-plus-circle me-1"></i> Nueva Sala
+					</a>
+				</div>
+
+				<div th:if="${mensaje != null}" class='alert alert-success' th:text="${mensaje}" role='alert'></div>
+
+				<table class="tabla-listado">
+					<thead>
+						<tr>
+							<th width="80">ID</th>
+							<th>Nombre</th>
+							<th>Museo</th>
+							<th>Tipo</th>
+							<th width="180" class="text-center">Operaciones</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="sala : ${salas}">
+							<td th:text="${sala.id}">1</td>
+							<td><strong th:text="${sala.nombre}">Nombre sala</strong></td>
+							<td th:text="${sala.museo.nombre}">Museo relacionado</td>
+							<td><span class="badge bg-secondary" th:text="${sala.tipo}"></span></td>
+
+							<td class="text-center">
+								<div class="grupo-botones">
+									<a th:href="@{/salas/editar(id=${sala.id})}" class="btn-lista btn-lista-success"
+										title="Editar"><i class="fas fa-edit"></i></a>
+									<a th:href="@{/salas/eliminar(id=${sala.id})}"
+										class="btn-lista btn-lista-danger confirmar" title="Eliminar">
+										<i class="fas fa-trash-alt"></i>
+									</a>
+									<a th:href="@{/salas/detalle(id=${sala.id})}" class="btn-lista btn-lista-secondary"
+										title="Ver detalles"><i class="fas fa-eye"></i></a>
+								</div>
+							</td>
+						</tr>
+						<tr><td colspan="5" th:text="'Total: ' + ${total}"></td></tr>
+					</tbody>
+				</table>
+
+				<!-- Paginación -->
+				<!-- Paginación para lista de salas -->
+				<nav th:if="${salas.totalPages > 0}" class="mt-4" aria-label="Paginación Salas">
+					<ul class="pagination justify-content-center">
+
+						<!-- Botón Anterior -->
+						<li class="page-item" th:classappend="${salas.number == 0} ? 'disabled'">
+							<a class="page-link" th:href="@{/salas/paginado(page=${salas.number - 1})}"
+								tabindex="-1">Anterior</a>
+						</li>
+
+						<!-- Páginas numeradas -->
+						<li class="page-item" th:each="i : ${#numbers.sequence(1, salas.totalPages)}"
+							th:classappend="${i == salas.number + 1} ? 'active'">
+							<a class="page-link" th:href="@{/salas/paginado(page=${i - 1})}" th:text="${i}">
+							</a>
+						</li>
+
+						<!-- Botón Siguiente -->
+						<li class="page-item" th:classappend="${salas.number == salas.totalPages - 1} ? 'disabled'">
+							<a class="page-link" th:href="@{/salas/paginado(page=${salas.number + 1})}">Siguiente</a>
+						</li>
+					</ul>
+				</nav>
+
+			</div>
+		</main>
+
+		<!-- Footer -->
+		<footer class="footer" th:insert="~{fragmentos/pie :: pie-pagina}"></footer>
+	</div>
+
+	<!-- Bootstrap JS y confirmación -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+	<!-- SweetAlert2 -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script>
+		document.querySelectorAll('.confirmar').forEach(function (el) {
+			el.addEventListener('click', function (e) {
+				e.preventDefault(); // Prevenir redirección inmediata
+
+				const href = el.getAttribute('href');
+
+				Swal.fire({
+					title: '¿Estás seguro?',
+					text: 'Se eliminará esta sala junto con todas sus obras asociadas. Esta acción no se puede deshacer.',
+					icon: 'warning',
+					showCancelButton: true,
+					confirmButtonColor: '#d33',
+					cancelButtonColor: '#3085d6',
+					confirmButtonText: 'Sí, eliminar',
+					cancelButtonText: 'Cancelar'
+				}).then((result) => {
+					if (result.isConfirmed) {
+						window.location.href = href; // Redirige a eliminar
+					}
+				});
+			});
+		});
+	</script>
+
+
+</body>
+
+</html>

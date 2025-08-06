@@ -1,0 +1,95 @@
+<nav th:fragment="menu-principal" class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+	<div class="container">
+		<!-- Contenedor del logo y nombre -->
+		<div class="d-flex align-items-center">
+			<!-- Izquierda: logo -->
+			<a class="navbar-brand d-flex align-items-center" th:href="@{/}">
+				<img th:src="@{/images/logo.png}" alt="Museando" class="img-fluid"
+					style="height: 70px; width: auto; margin-right: 10px;">
+				<span
+					style="font-family: 'Fredoka One', cursive; font-size: 1.5rem; line-height: 1; color: #FFD700; white-space: nowrap;">
+					MUSEANDO
+				</span>
+			</a>
+		</div>
+
+		<!-- Botón para móviles -->
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<!-- Elementos del menú -->
+		<div class="collapse navbar-collapse" id="navbarCollapse">
+			<ul class="navbar-nav me-auto ms-3">
+				<li class="nav-item"> <a class="nav-link" th:href="@{/}">Inicio</a> </li>
+				<li class="nav-item" sec:authorize="hasAnyAuthority('SUPERVISOR','ADMINISTRADOR')">
+					<!--<a class="nav-link" th:href="@{/categorias/index}">Categorias</a> -->
+					<a class="nav-link" th:href="@{/categorias/paginado}">Categorias</a>
+				</li>
+				<li class="nav-item" sec:authorize="hasAnyAuthority('SUPERVISOR','ADMINISTRADOR')">
+					<!--<a class="nav-link" th:href="@{/categorias/index}">Categorias</a> -->
+					<a class="nav-link" th:href="@{/museos/paginado}">Museos</a>
+				</li>
+				<li class="nav-item" sec:authorize="hasAnyAuthority('SUPERVISOR','ADMINISTRADOR')">
+					<!--<a class="nav-link" th:href="@{/categorias/index}">Categorias</a> -->
+					<a class="nav-link" th:href="@{/ubicaciones/paginado}">Ubicaciones</a>
+				</li>
+				<li class="nav-item" sec:authorize="hasAnyAuthority('SUPERVISOR','ADMINISTRADOR')">
+					<!--<a class="nav-link" th:href="@{/categorias/index}">Categorias</a> -->
+					<a class="nav-link" th:href="@{/salas/paginado}">Salas</a>
+				</li>
+				<li class="nav-item" sec:authorize="hasAnyAuthority('SUPERVISOR','ADMINISTRADOR')">
+					<!--<a class="nav-link" th:href="@{/categorias/index}">Categorias</a> -->
+					<a class="nav-link" th:href="@{/obras/index}">Obras</a>
+				</li>
+
+				<li class="nav-item" sec:authorize="hasAnyAuthority('ADMINISTRADOR')">
+					<!--<a class="nav-link" th:href="@{/categorias/index}">Categorias</a> -->
+					<a class="nav-link" th:href="@{/usuarios/paginado}">Usuarios</a>
+				</li>
+
+
+
+				<li class="nav-item"> <a class="nav-link" th:href="@{/museos/todos}">Explorar</a> </li>
+				
+				<li class="nav-item" sec:authorize="!hasAnyAuthority('ADMINISTRADOR','SUPERVISOR')">
+					<a class="nav-link" th:href="@{/voluntariado}">Voluntariado</a>
+				</li>
+				<li class="nav-item" sec:authorize="!hasAnyAuthority('ADMINISTRADOR','SUPERVISOR')">
+					<a class="nav-link" th:href="@{/acerca}">Acerca</a>
+				</li>
+
+				<li class="nav-item" sec:authorize="hasAnyAuthority('ADMINISTRADOR','SUPERVISOR')">
+					<a class="nav-link" th:href="@{/voluntariado/lista}">Voluntariados</a>
+				</li>
+
+
+				<li class="nav-item" sec:authorize="hasAnyAuthority('USUARIO')">
+					<a class="nav-link" href="/mensajes/bandeja">
+						<i class="bi bi-envelope"></i> Mensajes
+						<span class="badge bg-danger" th:text="${numMensajesPendientes}">0</span>
+					</a>
+				</li>
+
+				
+			</ul>
+
+			<!-- Botones a la derecha -->
+			<!-- Derecha: Bienvenido + Salir -->
+			<div class="d-flex align-items-center gap-2">
+				<div sec:authorize="isAnonymous()">
+					<a class="btn btn-purple fw-semibold px-3 py-1" th:href="@{/login}"
+						style="box-shadow: 0 4px 8px rgba(123,44,191,0.4); transition: all 0.3s ease;">Ingresar</a>
+					<a class="btn btn-yellow fw-semibold px-3 py-1" th:href="@{/signup}"
+						style="box-shadow: 0 4px 8px rgba(255,190,11,0.4); transition: all 0.3s ease;">Registrarse</a>
+				</div>
+				<div sec:authorize="isAuthenticated()">
+					<span class="text-light">Bienvenid@: </span>
+					<span class="text-light" sec:authentication="name"></span>
+					<a class="btn btn-pink fw-semibold px-3 py-1" th:href="@{/logout}"
+						style="box-shadow: 0 4px 8px rgba(210,33,110,0.4); transition: all 0.3s ease;">Salir</a>
+				</div>
+			</div>
+
+		</div>
+</nav>

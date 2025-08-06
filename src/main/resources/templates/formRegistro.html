@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Plataforma interactiva de experiencias culturales con tecnología IoT">
+    <meta name="author" content="TuNombre">
+    <title>Museando</title>
+    
+    <link rel="icon" href="favicon.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link th:href="@{/css/estilos.css}" rel="stylesheet">
+    <link th:href="@{/css/form.css}" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Barra de navegación -->
+    <header th:insert="~{fragmentos/menu :: menu-principal}"></header>
+
+
+	<main role="main" class="my-5">
+	  <div class="container">
+	    <div class="row justify-content-center">
+	      <div class="col-md-8 col-lg-6">
+	        <div class="card border-0 shadow-lg rounded-4 overflow-hidden" style="background: var(--blanco);">
+	          
+	          <!-- Header -->
+	          <div class="card-header bg-white text-center py-4" style="background: linear-gradient(135deg, var(--azul), var(--rosa));">
+	            <h4 class="fw-bold text-white mb-1" style="font-family: 'Playfair Display', serif; text-shadow: 1px 1px 4px rgba(0,0,0,0.3);">
+	              <i class="fas fa-user-plus me-2"></i>Únete a Museando
+	            </h4>
+	            <p class="text-white-50 mb-0" style="font-weight: 500;">Regístrate y explora experiencias culturales únicas</p>
+	          </div>
+	          
+	          <!-- Body -->
+	          <div class="card-body p-5 bg-light" style="background: var(--gris-claro);">
+	            <form th:action="@{/signup}" method="post" class="needs-validation" novalidate>
+	              <div class="row g-4">
+	                
+					<div th:if="${errorEmail}" class="text-danger mt-1" style="font-weight: 600;" th:text="${errorEmail}"></div>
+					<div th:if="${errorUsername}" class="text-danger mt-1" style="font-weight: 600;" th:text="${errorUsername}"></div>
+
+					
+	                <div class="col-md-6">
+	                  <label for="nombre" class="form-label" style="font-weight: 600; color: var(--violeta-oscuro);">Nombre completo</label>
+	                  <input type="text" class="form-control rounded-pill px-4 py-2" id="nombre" name="nombre" placeholder="Tu nombre completo" required style="border: 2px solid var(--azul); transition: border-color 0.3s;">
+	                  <div class="invalid-feedback">Este campo es obligatorio</div>
+	                </div>
+	                
+	                <div class="col-md-6">
+	                  <label for="email" class="form-label" style="font-weight: 600; color: var(--violeta-oscuro);">Correo electrónico</label>
+	                  <input type="email" class="form-control rounded-pill px-4 py-2" id="email" name="email" placeholder="ejemplo@correo.com" required style="border: 2px solid var(--azul); transition: border-color 0.3s;">
+	                  <div class="invalid-feedback">Ingresa un correo válido</div>
+	                </div>
+	                
+	                <div class="col-md-6">
+	                  <label for="username" class="form-label" style="font-weight: 600; color: var(--violeta-oscuro);">Nombre de usuario</label>
+	                  <input type="text" class="form-control rounded-pill px-4 py-2" id="username" name="username" placeholder="Tu nombre de usuario" required style="border: 2px solid var(--azul); transition: border-color 0.3s;">
+	                  <div class="invalid-feedback">Este campo es obligatorio</div>
+	                </div>
+	                
+	                <div class="col-md-6">
+	                  <label for="password" class="form-label" style="font-weight: 600; color: var(--violeta-oscuro);">Contraseña</label>
+	                  <input type="password" class="form-control rounded-pill px-4 py-2" id="password" name="password" placeholder="Crea una contraseña segura" required style="border: 2px solid var(--azul); transition: border-color 0.3s;">
+	                  <div class="invalid-feedback">La contraseña es obligatoria</div>
+	                </div>
+	                
+	              </div>
+
+	              <hr class="my-4" style="border-color: var(--violeta);">
+
+	              <div class="d-grid gap-3">
+	                <button type="submit" class="btn btn-primary btn-lg rounded-pill btn-purple">
+	                  <i class="fas fa-user-plus me-2"></i>Registrarse
+	                </button>
+	                <button type="reset" class="btn btn-outline-secondary rounded-pill" style="border-color: var(--violeta); color: var(--violeta); font-weight: 600; transition: background-color 0.3s, color 0.3s;">
+	                  <i class="fas fa-undo me-2"></i>Limpiar
+	                </button>
+	              </div>
+	            </form>
+	          </div>
+	          
+	          <!-- Footer -->
+	          <div class="card-footer text-center bg-white py-3" style="font-weight: 500;">
+	            <small class="text-muted">
+	              ¿Ya tienes cuenta? 
+	              <a th:href="@{/login}" class="text-decoration-none" style="color: var(--rosa); font-weight: 700;">Inicia sesión</a>
+	            </small>
+	          </div>
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+	</main>
+
+     <!-- Footer -->
+    <footer class="footer" th:insert="~{fragmentos/pie :: pie-pagina}"></footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script> 
+    <script src="bootstrap/js/bootstrap.min.js"></script>     
+  </body>
+</html>

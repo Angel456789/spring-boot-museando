@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="Plataforma interactiva de experiencias culturales con tecnología IoT">
+	<meta name="author" content="TuNombre">
+
+	<title>Lista Mensajes</title>
+
+	<link rel="icon" href="favicon.ico">
+	<link
+		href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+		rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+	<link th:href="@{/css/estilos.css}" rel="stylesheet">
+	<link th:href="@{/css/listas.css}" rel="stylesheet">
+</head>
+
+<body>
+	<div class="d-flex flex-column min-vh-100">
+		<!-- Barra de navegación -->
+		<header th:insert="~{fragmentos/menu :: menu-principal}"></header>
+
+		<main class="container my-5">
+		    <div class="notifications-container">
+		        <div class="notifications-header">
+		            <h2><i class="fas fa-inbox me-2"></i>Mis Solicitudes de Voluntariado</h2>
+					
+		            </div>
+
+		        <div class="notification-feed">
+		            <div th:each="solicitud : ${solicitudes}" class="notification-card"
+		                 th:classappend="${solicitud.estado.name() == 'ACEPTADO' ? 'card-accepted' : (solicitud.estado.name() == 'RECHAZADO' ? 'card-rejected' : 'card-pending')}">
+		                <div class="notification-icon">
+		                    <i th:if="${solicitud.estado.name() == 'ACEPTADO'}" class="fas fa-check-circle text-success"></i>
+		                    <i th:if="${solicitud.estado.name() == 'RECHAZADO'}" class="fas fa-times-circle text-danger"></i>
+		                    <i th:if="${solicitud.estado.name() == 'PENDIENTE'}" class="fas fa-hourglass-half text-warning"></i>
+		                </div>
+		                <div class="notification-content">
+		                    <p class="notification-title">
+		                        <span th:if="${solicitud.estado.name() == 'ACEPTADO'}">¡Tu solicitud ha sido aceptada, se te ha enviado un correo Electronico!</span>
+		                        <span th:if="${solicitud.estado.name() == 'RECHAZADO'}">Solicitud rechazada.</span>
+		                        <span th:if="${solicitud.estado.name() == 'PENDIENTE'}">Solicitud en revisión.</span>
+		                    </p>
+		                    <p class="notification-detail">
+		                        <strong>Museo:</strong> <span th:text="${solicitud.museo.nombre}">Museo</span>
+		                    </p>
+		                    <p class="notification-detail" th:if="${solicitud.comentarios != null and solicitud.comentarios != ''}">
+		                        <strong>Mensaje:</strong> <span th:text="${solicitud.comentarios}"></span>
+		                    </p>
+		                    <p class="notification-meta">
+		                        <small th:text="${#temporals.format(solicitud.fecha, 'dd MMMM yyyy')}">Fecha</small>
+		                    </p>
+		                </div>
+		                </div>
+
+		            <div th:if="${solicitudes.isEmpty()}" class="empty-state">
+		                <i class="fas fa-box-open fa-3x mb-3 text-muted"></i>
+		                <p class="lead text-muted">No tienes solicitudes de voluntariado en este momento.</p>
+		                <p class="text-muted">¡Anímate a explorar nuevas oportunidades!</p>
+		            </div>
+		        </div>
+		    </div>
+		</main>
+
+		<!-- Footer -->
+		<footer class="footer" th:insert="~{fragmentos/pie :: pie-pagina}"></footer>
+	</div>
+</body>
+
+</html>

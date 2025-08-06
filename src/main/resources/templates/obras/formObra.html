@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="Plataforma interactiva de experiencias culturales con tecnología IoT">
+	<meta name="author" content="TuNombre">
+	<title>Formulario Obra</title>
+
+	<link rel="icon" href="favicon.ico">
+	<link
+		href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+		rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+	<link th:href="@{/css/estilos.css}" rel="stylesheet">
+	<link th:href="@{/css/form.css}" rel="stylesheet">
+</head>
+
+<body>
+	<!-- Barra de navegación -->
+	<header th:insert="~{fragmentos/menu :: menu-principal}"></header>
+
+	<!-- Contenido principal -->
+	<main role="main" class="my-5 pt-4">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-lg-10">
+					<div class="formulario-contenedor card shadow-sm">
+						<div class="formulario-header card-header bg-primary text-white py-3">
+							<h4 class="mb-0">
+								<i class="fas fa-palette me-2"></i>Registro de Obra
+							</h4>
+						</div>
+						<div class="formulario-body card-body p-4">
+							<form th:action="@{/obras/guardar}" th:object="${obra}" method="post"
+								enctype="multipart/form-data" class="needs-validation" novalidate>
+
+								<div th:if="${#fields.hasErrors('*')}" class="alert alert-danger" role="alert">
+									<p>Por favor corrija los siguientes errores:</p>
+									<ul>
+										<li th:each="err : ${#fields.errors('*')}" th:text="${err}"></li>
+									</ul>
+								</div>
+
+								<input type="hidden" th:field="*{id}" />
+
+								<!-- Sección 1: Información básica -->
+								<div class="form-section form-group">
+									<h5 class="form-section-title">
+										<i class="fas fa-info-circle"></i> Información de la obra
+									</h5>
+									<div class="row g-3">
+										<div class="col-12">
+											<label for="titulo" class="form-label">Título de la obra *</label>
+											<input type="text" class="form-control" th:field="*{titulo}"
+												placeholder="Ej. La Noche Estrellada" required>
+											<div class="invalid-feedback">Por favor ingresa el título de la obra</div>
+										</div>
+
+										<div class="col-md-6">
+											<label for="autor" class="form-label">Autor</label>
+											<input type="text" class="form-control" th:field="*{autor}"
+												placeholder="Ej. Vincent van Gogh">
+											<div class="invalid-feedback">Ingresa el nombre del autor</div>
+										</div>
+
+										<div class="col-md-6">
+											<label for="año">Año</label>
+											<input class="form-control" type="date" th:value="${obra.año != null ? obra.año : ''}" name="año"/>
+											<div class="invalid-feedback" th:if="${#fields.hasErrors('año')}"
+												th:errors="*{año}"></div>
+										</div>
+
+									
+
+										<div class="col-md-6">
+										    <label for="tipo" class="form-label">Tipo de obra *</label>
+										    <select class="form-select" th:field="*{tipo}" required>
+										        <option value="" disabled th:selected="*{tipo} == null">Selecciona el tipo</option>
+										        <option th:each="tipo : ${T(com.museando.model.TipoObra).values()}"
+										                th:value="${tipo}"
+										                th:text="${tipo}">Tipo</option>
+										    </select>
+										    <div class="invalid-feedback">Selecciona el tipo de obra</div>
+										</div>
+
+
+										<div class="col-md-6">
+											<label for="idSala" class="form-label">Sala *</label>
+											<select class="form-select" th:field="*{sala.id}" required>
+												<option value="" disabled th:selected="*{sala} == null">Selecciona una
+													sala</option>
+												<option th:each="sala : ${salas}" th:value="${sala.id}"
+													th:text="${sala.nombre}"></option>
+											</select>
+											<div class="invalid-feedback">Selecciona una sala</div>
+										</div>
+
+										<div class="col-12">
+											<label for="descripcion" class="form-label">Descripción</label>
+											<textarea class="form-control" th:field="*{descripcion}" rows="4"
+												placeholder="Describe la obra..."></textarea>
+											<div class="invalid-feedback">Por favor describe la obra</div>
+										</div>
+									</div>
+								</div>
+								<br>
+
+								<div class="form-group mb-3">
+								  <label for="archivoImagen">Imagen</label>
+								  <input type="file" class="form-control" id="archivoImagen" name="archivoImagen" accept=".jpg,.jpeg,.png,.gif">
+
+								  <!-- Previsualización -->
+								  <div id="preview-container" style="margin-top: 10px;">
+								    <img id="img-preview" src="#" alt="Previsualización" style="max-width: 200px; max-height: 150px; display: none;" />
+								  </div>
+
+								  <!-- Mostrar imagen actual si existe -->
+								  <div th:if="${obra.id != null and obra.imagen != null}">
+								    <p>Imagen actual:</p>
+								    <img th:src="@{'/obras/' + ${obra.imagen}}" alt="Imagen actual" style="max-width: 200px; max-height: 150px;" />
+								  </div>
+								</div>
+
+								<!-- Botones de acción -->
+								<div class="form-actions d-flex justify-content-between flex-wrap">
+									<button type="submit" class="btn btn-primary mb-2">
+										<i class="fas fa-save mr-2"></i>Guardar
+									</button>
+									<button type="reset" class="btn btn-secondary mb-2">
+										<i class="fas fa-undo mr-2"></i>Limpiar
+									</button>
+									<a th:href="@{/obras/index}" class="btn btn-outline-secondary mb-2">
+										<i class="fas fa-times mr-2"></i>Cancelar
+									</a>
+								</div>
+
+						</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
+	</main>
+
+	<!-- Footer -->
+	<footer class="footer" th:insert="~{fragmentos/pie :: pie-pagina}"></footer>
+
+	<!-- Bootstrap JS -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+	<script>
+	  document.getElementById('archivoImagen').addEventListener('change', function(event) {
+	    const input = event.target;
+	    const preview = document.getElementById('img-preview');
+
+	    if (input.files && input.files[0]) {
+	      const reader = new FileReader();
+
+	      reader.onload = function(e) {
+	        preview.src = e.target.result;
+	        preview.style.display = 'block';  // Mostrar la imagen
+	      };
+
+	      reader.readAsDataURL(input.files[0]);
+	    } else {
+	      preview.src = '#';
+	      preview.style.display = 'none';  // Ocultar si no hay archivo
+	    }
+	  });
+	</script>
+
+	
+</body>
+
+</html>

@@ -1,0 +1,309 @@
+/* formularios.css - Estilos específicos para formularios */
+
+/* Variables de colores */
+:root {
+    --azul: #3a86ff;
+    --azul-claro: #6ba4ff;
+    --rosa: #ff006e;
+    --rosa-claro: #ff5ca1;
+    --violeta: #8338ec;
+    --violeta-oscuro: #5e2dba;
+    --verde: #38b000;
+    --verde-claro: #6bd459;
+    --blanco: #ffffff;
+    --gris-claro: #f8f9fa;
+    --negro: #212529;
+}
+
+/* Contenedor principal del formulario */
+.formulario-contenedor {
+    background-color: var(--blanco);
+    border-radius: 16px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    margin-bottom: 2rem;
+}
+
+/* Encabezado del formulario */
+.formulario-header {
+    background: linear-gradient(135deg, var(--azul), var(--rosa));
+    color: white;
+    padding: 1.25rem 1.5rem;
+    border-bottom: none;
+}
+
+.formulario-header h4 {
+    margin: 0;
+    font-weight: 600;
+    font-size: 1.5rem;
+    font-family: 'Playfair Display', serif;
+}
+
+/* Cuerpo del formulario */
+.formulario-body {
+    padding: 1.5rem;
+}
+
+/* Grupos de formulario */
+.form-group {
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--violeta-oscuro);
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Campos de entrada */
+.form-control {
+    display: block;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--negro);
+    background-color: var(--blanco);
+    background-clip: padding-box;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    font-family: 'Poppins', sans-serif;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.form-control:focus {
+    border-color: var(--azul);
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(58, 134, 255, 0.25);
+    transform: translateY(-1px);
+}
+
+/* Textarea */
+textarea.form-control {
+    min-height: 100px;
+    resize: vertical;
+}
+
+/* Botones */
+.btn-formulario {
+    border: none;
+    border-radius: 8px;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Poppins', sans-serif;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.btn-formulario:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn-formulario:active {
+    transform: translateY(0);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--azul), var(--azul-claro));
+    color: white;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, var(--azul-claro), var(--azul));
+    color: white;
+}
+
+/* Efectos de validación */
+.is-invalid {
+    border-color: var(--rosa);
+}
+
+.is-valid {
+    border-color: var(--verde);
+}
+
+.invalid-feedback {
+    color: var(--rosa);
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Efectos hover para las tarjetas */
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .formulario-body {
+        padding: 1rem;
+    }
+    
+    .form-group {
+        margin-bottom: 1rem;
+    }
+    
+    .btn-formulario {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+}
+
+/* Estilos para imágenes */
+.img-museo {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.img-logo-nav {
+    height: 70px;
+    width: auto;
+    margin-right: 10px;
+}
+
+.nombre-app {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+/* Estilos para el área de subida de fotos */
+.photo-upload-container {
+    margin-top: 1rem;
+}
+
+.photo-upload-area {
+    border: 2px dashed var(--azul);
+    border-radius: 12px;
+    padding: 2rem;
+    text-align: center;
+    background-color: rgba(58, 134, 255, 0.05);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.photo-upload-area:hover {
+    background-color: rgba(58, 134, 255, 0.1);
+    border-color: var(--azul-claro);
+}
+
+.photo-upload-icon {
+    color: var(--azul);
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+/* Vista previa de fotos */
+.photo-preview-container {
+    margin: 1rem 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.photo-preview-thumbnail {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.photo-thumbnail {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.btn-remove-photo {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: rgba(255, 0, 0, 0.7);
+    color: white;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+/* Botones específicos */
+.btn-cancel {
+    background: linear-gradient(135deg, #6c757d, #adb5bd);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-cancel:hover {
+    background: linear-gradient(135deg, #adb5bd, #6c757d);
+    transform: translateY(-2px);
+}
+
+.btn-submit {
+    background: linear-gradient(135deg, var(--verde), var(--verde-claro));
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-submit:hover {
+    background: linear-gradient(135deg, var(--verde-claro), var(--verde));
+    transform: translateY(-2px);
+}
+
+/* Tarjeta de consejos */
+.tips-card {
+    border-left: 4px solid var(--azul);
+    border-radius: 12px;
+    margin-top: 2rem;
+}
+
+.tips-card .card-body {
+    padding: 1.5rem;
+}
+
+/* Rating del museo */
+.museo-rating {
+    color: var(--amarillo);
+    font-size: 0.9rem;
+}
+
+.museo-rating i {
+    color: inherit;
+}
+
+/* Tarjeta del museo */
+.museo-card {
+    border-left: 4px solid var(--amarillo);
+    border-radius: 12px;
+    overflow: hidden;
+}
+

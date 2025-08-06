@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="Plataforma interactiva de experiencias culturales con tecnología IoT">
+	<meta name="author" content="TuNombre">
+
+	<title>Lista Usuarios</title>
+
+	<link rel="icon" href="favicon.ico">
+	<link
+		href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+		rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+	<link th:href="@{/css/estilos.css}" rel="stylesheet">
+	<link th:href="@{/css/listas.css}" rel="stylesheet">
+</head>
+
+<body>
+	<div class="d-flex flex-column min-vh-100">
+		<!-- Barra de navegación -->
+		<header th:insert="~{fragmentos/menu :: menu-principal}"></header>
+
+		<!-- Contenido principal -->
+		<main class="container my-5">
+			<div class="lista-contenedor">
+				<div class="lista-header">
+					<h2><i class="fas fa-users me-2"></i>Listado de Usuarios</h2>
+				</div>
+				<div class="lista-toolbar">
+
+				</div>
+
+				<!-- Mensajes de error o éxito -->
+				<div th:if="${msg}" id="mensaje-exito" th:text="${msg}" style="display:none;"></div>
+				<div th:if="${error}" id="mensaje-error" th:text="${error}" style="display:none;"></div>
+
+				<table class="tabla-listado">
+					<thead>
+						<tr>
+							<th width="80">ID</th>
+							<th>Nombre</th>
+							<th>Email</th>
+							<th>Username</th>
+							<th>Estatus</th>
+							<th width="180" class="text-center">Operaciones</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="usuario : ${usuarios}">
+							<td th:text="${usuario.id}">1</td>
+							<td><strong th:text="${usuario.nombre}"></strong></td>
+							<td th:text="${usuario.email}"></td>
+							<td th:text="${usuario.username}"></td>
+							<td th:switch="${usuario.estatus}">
+							    <span th:case="1" class="estatus-activo">Activo</span>
+							    <span th:case="0" class="estatus-bloqueado">Bloqueado</span>
+							    <span th:case="*">Desconocido</span>
+							</td>
+
+							<td class="text-center">
+								<div class="grupo-botones">
+									<!-- Botón Eliminar -->
+									<!-- Ocultar botón eliminar si el usuario tiene ID 1 (admin) -->
+									<a th:if="${usuario.id != 1}" th:href="@{/usuarios/eliminar(id=${usuario.id})}"
+										class="btn btn-danger btn-sm confirmar" role="button"
+										title="Eliminar el registro.">
+										<i class="fas fa-trash" aria-hidden="true"></i>
+									</a>
+
+									<!-- Botón Bloquear -->
+									<a th:href="@{/usuarios/bloquear(id=${usuario.id})}" class="btn btn-warning btn-sm"
+										role="button" title="Bloquear acceso"
+										th:classappend="${usuario.estatus == 0} ? ' disabled'">
+										<i class="fas fa-lock"></i>
+									</a>
+
+									<!-- Botón Desbloquear -->
+									<a th:href="@{/usuarios/desbloquear(id=${usuario.id})}"
+										class="btn btn-success btn-sm" role="button" title="Permitir acceso"
+										th:classappend="${usuario.estatus == 1} ? ' disabled'">
+										<i class="fas fa-unlock"></i>
+									</a>
+								</div>
+							</td>
+
+						</tr>
+						<tr>
+							<td colspan="6" th:text="'Total: ' + ${total}"></td>
+						</tr>
+
+
+					</tbody>
+				</table>
+
+				<!-- Paginación para lista de usuarios -->
+				<nav th:if="${usuarios.totalPages > 0}" class="mt-4" aria-label="Paginación de usuarios">
+					<ul class="pagination justify-content-center">
+						<!-- Botón Anterior -->
+						<li class="page-item" th:classappend="${usuarios.number == 0} ? 'disabled'">
+							<a class="page-link" th:href="@{/usuarios/paginado(page=${usuarios.number - 1})}"
+								tabindex="-1">Anterior</a>
+						</li>
+
+						<!-- Páginas numeradas -->
+						<li class="page-item" th:each="i : ${#numbers.sequence(1, usuarios.totalPages)}"
+							th:classappend="${i == usuarios.number + 1} ? 'active'">
+							<a class="page-link" th:href="@{/usuarios/paginado(page=${i - 1})}" th:text="${i}">
+							</a>
+						</li>
+
+						<!-- Botón Siguiente -->
+						<li class="page-item"
+							th:classappend="${usuarios.number == usuarios.totalPages - 1} ? 'disabled'">
+							<a class="page-link"
+								th:href="@{/usuarios/paginado(page=${usuarios.number + 1})}">Siguiente</a>
+						</li>
+					</ul>
+				</nav>
+
+			</div>
+		</main>
+
+		<!-- Footer -->
+		<footer class="footer" th:insert="~{fragmentos/pie :: pie-pagina}"></footer>
+	</div>
+
+	<!-- Bootstrap JS y confirmación -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+			// Confirmación para eliminar (tu SweetAlert de confirmación)
+			document.querySelectorAll('.confirmar').forEach(function (el) {
+				el.addEventListener('click', function (e) {
+					e.preventDefault();
+					const href = el.getAttribute('href');
+
+					Swal.fire({
+						title: '¿Estás seguro?',
+						text: 'Se eliminará este usuario. Esta acción no se puede deshacer.',
+						icon: 'warning',
+						showCancelButton: true,
+						confirmButtonColor: '#d33',
+						cancelButtonColor: '#3085d6',
+						confirmButtonText: 'Sí, eliminar',
+						cancelButtonText: 'Cancelar'
+					}).then((result) => {
+						if (result.isConfirmed) {
+							window.location.href = href;
+						}
+					});
+				});
+			});
+
+			// Mostrar mensaje de éxito con SweetAlert si existe
+			const mensajeExito = document.getElementById('mensaje-exito');
+			if (mensajeExito) {
+				Swal.fire({
+					icon: 'success',
+					title: '¡Éxito!',
+					text: mensajeExito.textContent,
+					timer: 3000,
+					timerProgressBar: true,
+					showConfirmButton: false
+				});
+			}
+
+			// Mostrar mensaje de error con SweetAlert si existe
+			const mensajeError = document.getElementById('mensaje-error');
+			if (mensajeError) {
+				Swal.fire({
+					icon: 'error',
+					title: 'Error',
+					text: mensajeError.textContent,
+					timer: 4000,
+					timerProgressBar: true,
+					showConfirmButton: false
+				});
+			}
+		});
+	</script>
+</body>
+
+</html>

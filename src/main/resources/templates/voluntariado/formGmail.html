@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="Plataforma interactiva de experiencias culturales con tecnología IoT">
+	<meta name="author" content="TuNombre">
+	<title>Formulario Categoría</title>
+
+	<link rel="icon" href="favicon.ico">
+	<link
+		href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+		rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+	<link th:href="@{/css/estilos.css}" rel="stylesheet">
+	<link th:href="@{/css/form.css}" rel="stylesheet">
+</head>
+
+<body>
+	<div class="d-flex flex-column min-vh-100">
+
+		<!-- Barra de navegación -->
+		<header th:insert="~{fragmentos/menu :: menu-principal}"></header>
+
+		<!-- Contenido principal -->
+		<main role="main" class="my-5 pt-4">
+			<div class="container">
+				<div class="row justify-content-center">
+					<div class="col-lg-8">
+						<div class="formulario-contenedor card shadow-sm">
+							<div class="formulario-header card-header bg-primary text-white py-3">
+								<h4 class="mb-0">
+									<i class="fas fa-tags me-2"></i>Enviar correo a <span th:text="${username}"></span>
+								</h4>
+							</div>
+							<div class="formulario-body card-body p-4">
+								<form th:action="@{/voluntariado/enviarCorreo}" th:method="post"
+									class="needs-validation" novalidate>
+									<!-- Mostrar etiqueta "Para: correo@algo.com" -->
+									<p class="mb-3">
+										<strong>Para:</strong>
+										<span th:text="${correoUsuario}">correo@ejemplo.com</span>
+									</p>
+
+									<!-- Campo oculto con el correo real -->
+									<input type="hidden" name="para" th:value="${correoUsuario}" />
+									<div class="mb-3">
+										<label for="asunto" class="form-label">Asunto</label>
+										<input type="text" class="form-control" id="asunto" name="asunto"
+											placeholder="Ej: Confirmación de tu solicitud de voluntariado" required>
+									</div>
+									<div class="mb-3">
+										<label for="mensaje" class="form-label">Mensaje</label>
+										<textarea class="form-control" id="mensaje" name="mensaje" rows="4"
+											placeholder="Escribe el contenido del correo, como detalles, agradecimientos o instrucciones"
+											required></textarea>
+									</div>
+
+									<button type="submit" class="btn btn-primary w-100">
+										<i class="fas fa-paper-plane me-2"></i>Enviar Correo
+									</button>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</main>
+
+		<!-- Footer -->
+		<footer class="footer" th:insert="~{fragmentos/pie :: pie-pagina}"></footer>
+	</div>
+
+
+	<!-- Bootstrap JS -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+	<!-- Script de validación -->
+
+</body>
+
+</html>

@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="Plataforma interactiva de experiencias culturales con tecnología IoT">
+	<meta name="author" content="TuNombre">
+	<title>Museando</title>
+
+	<link rel="icon" href="favicon.ico">
+	<link
+		href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+		rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+	<link th:href="@{/css/estilos.css}" rel="stylesheet">
+	<link th:href="@{/css/form.css}" rel="stylesheet">
+</head>
+
+<body>
+
+	<!-- Barra de navegación -->
+	<header th:insert="~{fragmentos/menu :: menu-principal}"></header>
+
+	<main role="main" class="my-5">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-md-8">
+					<div class="formulario-contenedor card shadow rounded p-4">
+						<h4 class="formulario-header card-header bg-primary text-white">
+							<strong>Datos del Museo</strong>
+						</h4>
+						<div class="formulario-body card-body">
+							<form method="post" th:action="@{/museos/guardar}" th:object="${museo}"
+								enctype="multipart/form-data">
+
+								<div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+								<div th:if="${msg}" class="alert alert-success" th:text="${msg}"></div>
+
+								<div class="row" style="width: 100%;">
+									<div th:if="${#fields.hasErrors('*')}" class='alert alert-danger' role='alert'>
+										Por favor corrija los siguientes errores:
+										<ul><li th:each="err : ${#fields.errors('*')}" th:text="${err}" /></ul>
+									</div>
+
+
+									<input type="hidden" th:field="*{id}" />
+
+									<div class="form-group">
+										<label for="nombre">Nombre del Museo</label>
+										<input type="text" class="form-control" id="nombre" th:field="*{nombre}"
+											placeholder="Nombre del museo" required>
+										<small class="invalid-feedback">Este campo es obligatorio</small>
+									</div>
+
+									<div class="row">
+										<div class="col-md-6">
+											<div class="form-group">
+												<label for="categoria">Categoría</label>
+												<select class="form-select" id="categoria" th:field="*{categoria.id}"
+													required>
+													<option value="" disabled>-- Selecciona una categoría --</option>
+													<option th:each="categoria : ${categorias}"
+														th:value="${categoria.id}" th:text="${categoria.nombre}">
+													</option>
+												</select>
+												<small class="invalid-feedback">Selecciona una categoría</small>
+											</div>
+										</div>
+
+										<div class="col-md-6">
+											<div class="form-group">
+												<label for="estatus">Estatus</label>
+												<select class="form-select" id="estatus" th:field="*{estatus}" required>
+													<option value="" disabled selected>-- Selecciona un estatus --
+													</option>
+													<option th:each="estado : ${estatuses}" th:value="${estado}"
+														th:text="${estado}">
+													</option>
+												</select>
+
+												<small class="invalid-feedback">Este campo es obligatorio</small>
+											</div>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label for="ubicacion">Ubicación</label>
+										<select class="form-select" id="ubicacion" th:field="*{ubicacion.id}" required>
+											<option value="" disabled>-- Selecciona una ubicación --</option>
+											<option th:each="ubicacion : ${ubicaciones}" th:value="${ubicacion.id}"
+												th:text="${ubicacion.calle + ', ' + ubicacion.colonia + ', ' + ubicacion.municipio + ', ' + ubicacion.estado}">
+											</option>
+										</select>
+										<small class="invalid-feedback">Selecciona una ubicación</small>
+									</div>
+
+									<div class="form-group">
+										<label for="descripcion">Descripción</label>
+										<textarea class="form-control" id="descripcion" th:field="*{descripcion}"
+											rows="3"
+											placeholder="Agrega una descripción detallada del museo"></textarea>
+									</div>
+
+									<div class="row">
+										<div class="col-md-6">
+											<div class="form-group">
+												<label for="telefono">Teléfono</label>
+												<input type="tel" class="form-control" id="telefono"
+													th:field="*{telefono}" placeholder="Ej. 5555551234"
+													pattern="[0-9]{10}" title="Ingresa un número de 10 dígitos"
+													required>
+											</div>
+										</div>
+
+										<div class="col-md-6">
+											<div class="form-group">
+												<label for="correo">Correo electrónico</label>
+												<input type="email" class="form-control" id="correo"
+													th:field="*{correo}" placeholder="Ej. contacto@museo.com" required>
+											</div>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label for="sitioWeb">Sitio web</label>
+										<input type="url" class="form-control" id="sitioWeb" th:field="*{sitioWeb}"
+											placeholder="https://www.mimuseo.com">
+									</div>
+
+									<div class="form-group">
+										<label for="costos">Costos</label>
+										<textarea class="form-control" id="costos" th:field="*{costos}" rows="2"
+											placeholder="Ej. General $50, Estudiantes $25"></textarea>
+									</div>
+
+									<div class="form-group">
+										<label for="horario">Horario</label>
+										<textarea class="form-control" id="horario" th:field="*{horario}" rows="2"
+											placeholder="Ej. Lunes a Domingo de 9am a 6pm"></textarea>
+									</div>
+
+									<!-- Campo imagen principal -->
+									<div class="form-group">
+										<label for="archivoImagen">Imagen principal</label>
+										<input type="file" class="form-control-file" id="archivoImagen"
+											name="archivoImagen" th:attr="required=${museo.id == null}"
+											accept=".jpg,.jpeg,.png,.bmp,.webp" />
+
+										<!-- Imagen para previsualización -->
+										<img id="previewImagen" src="#" alt="Previsualización imagen"
+											style="max-width: 200px; max-height: 150px; display: none; margin-top: 10px;" />
+									</div>
+
+									<!-- Mostrar imagen actual si existe -->
+									<div th:if="${museo.id != null and museo.imagen != null}">
+										<p>Imagen actual:</p>
+										<img th:src="@{'/logos/' + ${museo.imagen}}" alt="Imagen actual"
+											style="max-width: 200px; max-height: 150px;" />
+									</div>
+
+									<div class="row align-items-center">
+										<div class="col-md-6">
+											<div class="form-group">
+												<label for="fechaFundacion">Fecha de Fundación</label>
+												<input type="date" class="form-control" id="fechaFundacion"
+													name="fechaFundacion"
+													th:value="${museo.fechaFundacion != null ? museo.fechaFundacion.toString() : ''}"
+													required />
+												<small class="invalid-feedback">Este campo es obligatorio.</small>
+											</div>
+										</div>
+
+										<div class="col-md-6">
+											<div class="form-group d-flex align-items-center gap-3 mt-md-0 mt-3">
+												<label class="mb-0 me-3">Destacado</label>
+												<div class="form-check form-check-inline mb-0">
+													<input class="form-check-input" type="radio" th:field="*{destacado}"
+														value="1" id="destacado1">
+													<label class="form-check-label" for="destacado1">Sí</label>
+												</div>
+												<div class="form-check form-check-inline mb-0">
+													<input class="form-check-input" type="radio" th:field="*{destacado}"
+														value="0" id="destacado0">
+													<label class="form-check-label" for="destacado0">No</label>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<hr>
+
+									<!-- Botones de acción -->
+									<div class="form-actions d-flex justify-content-between flex-wrap">
+										<button type="submit" class="btn btn-primary mb-2">
+											<i class="fas fa-save mr-2"></i>Guardar
+										</button>
+										<button type="reset" class="btn btn-secondary mb-2">
+											<i class="fas fa-undo mr-2"></i>Limpiar
+										</button>
+										<a th:href="@{/museos/paginado}" class="btn btn-outline-secondary mb-2">
+											<i class="fas fa-times mr-2"></i>Cancelar
+										</a>
+									</div>
+
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+
+
+	<!-- Footer -->
+	<footer class="footer" th:insert="~{fragmentos/pie :: pie-pagina}"></footer>
+
+	<!-- Bootstrap core JavaScript
+    ================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+	<script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+	<script th:src="@{/tinymce/tinymce.min.js}"></script>
+	<!-- Script para previsualizar la imagen seleccionada -->
+	<script>
+		const inputImagen = document.getElementById('archivoImagen');
+		const preview = document.getElementById('previewImagen');
+
+		inputImagen.addEventListener('change', function () {
+			const file = this.files[0];
+			if (file) {
+				const reader = new FileReader();
+
+				reader.addEventListener('load', function () {
+					preview.setAttribute('src', this.result);
+					preview.style.display = 'block';
+				});
+
+				reader.readAsDataURL(file);
+			} else {
+				preview.style.display = 'none';
+				preview.setAttribute('src', '#');
+			}
+		});
+	</script>
+	<script>
+
+		$(function () {
+			$("#fecha").datepicker({dateFormat: 'dd-mm-yy'});
+		}
+		);
+
+
+		tinymce.init({
+			selector: '#costos',
+			plugins: "textcolor table lists code",
+			toolbar: "undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | forecolor backcolor table code"
+		});
+
+	</script>
+
+</body>
+
+</html>
