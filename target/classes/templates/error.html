@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Plataforma interactiva de experiencias culturales con tecnología IoT">
+    <meta name="author" content="TuNombre">
+    <title>Museando</title>
+    
+    <link rel="icon" href="favicon.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+	<link th:href="@{/css/estilos.css}" rel="stylesheet">
+</head>
+
+  <body>
+      <div class="d-flex flex-column min-vh-100">
+
+		<!-- Barra de navegación -->
+						<header th:insert="~{fragmentos/menu :: menu-principal}"></header>
+
+
+
+     <!-- Main Content -->
+  <main class="flex-fill pt-4 mt-1">
+    <div class="container py-3">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="card border-0 shadow-sm">
+            <div class="card-body text-center py-5">
+              <img src="images/error.png" alt="Icono de error" class="mb-4" style="max-width: 120px;">
+              <h2 class="card-title mb-3 text-danger"><i class="fas fa-exclamation-triangle me-2"></i><strong>Ocurrio un error en la aplicación</strong></h2>
+              <p class="card-text mb-4 text-muted">Lo sentimos, algo salió mal en la aplicación.</p>
+              <ul class="list-group list-group-flush text-start mb-4">
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  <span><strong>Error:</strong></span>
+                  <span id="error-desc">Descripción del error</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  <span><strong>Fecha:</strong></span>
+                  <span id="error-date">20-03-2023</span>
+                </li>
+              </ul>
+              <a href="index.html" class="btn btn-primary"><i class="fas fa-home me-2"></i>Ir a Inicio</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+
+        <!-- Footer -->
+    <footer class="footer" th:insert="~{fragmentos/pie :: pie-pagina}"></footer>
+</div>
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>     
+  </body>
+</html>

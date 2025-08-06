@@ -1,0 +1,278 @@
+/* listas.css - Estilos específicos para listados */
+
+/* Contenedor principal */
+.lista-contenedor {
+    background-color: var(--blanco);
+    border-radius: 16px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    margin-bottom: 2rem;
+}
+
+/* Encabezado del listado */
+.lista-header {
+    background: linear-gradient(135deg, var(--azul), var(--rosa));
+    color: white;
+    padding: 1.25rem 1.5rem;
+    border-bottom: none;
+}
+
+.lista-header h2 {
+    margin: 0;
+    font-weight: 600;
+    font-size: 1.5rem;
+    font-family: 'Playfair Display', serif;
+}
+
+/* Barra de herramientas */
+.lista-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    background-color: var(--gris-claro);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* Buscador */
+.lista-busqueda {
+    position: relative;
+    width: 300px;
+}
+
+.lista-busqueda input {
+    padding-left: 2.5rem;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    font-family: 'Poppins', sans-serif;
+}
+
+.lista-busqueda i {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--rosa);
+}
+
+/* Estilos para la tabla */
+.tabla-listado {
+    width: 100%;
+    margin-bottom: 0;
+    color: var(--negro);
+    border-collapse: separate;
+    border-spacing: 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+.tabla-listado thead th {
+    background: linear-gradient(135deg, var(--violeta), var(--azul));
+    color: white;
+    padding: 1rem 1.25rem;
+    font-weight: 500;
+    border: none;
+    position: sticky;
+    top: 0;
+}
+
+.tabla-listado tbody tr {
+    transition: all 0.2s ease;
+}
+
+.tabla-listado tbody tr:nth-child(even) {
+    background-color: var(--gris-claro);
+}
+
+.tabla-listado tbody tr:hover {
+    background-color: rgba(123, 44, 191, 0.05);
+    transform: translateX(2px);
+}
+
+.tabla-listado td {
+    padding: 1rem 1.25rem;
+    vertical-align: middle;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* Botones de acción */
+.btn-lista {
+    border: none;
+    border-radius: 8px;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-right: 0.5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Poppins', sans-serif;
+}
+
+.btn-lista:last-child {
+    margin-right: 0;
+}
+
+.btn-lista i {
+    transition: transform 0.2s ease;
+}
+
+.btn-lista, .btn-lista-active {
+    text-decoration: none; /* Quita subrayado */
+}
+
+
+.btn-lista:hover i {
+    transform: scale(1.1);
+}
+
+.btn-lista-primary {
+    background: linear-gradient(135deg, var(--azul), var(--azul-claro));
+    color: white;
+}
+
+.btn-lista-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(58, 134, 255, 0.3);
+    color: white;
+}
+
+.btn-lista-success {
+    background: linear-gradient(135deg, var(--verde), var(--verde-claro));
+    color: white;
+}
+
+.btn-lista-success:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(56, 176, 0, 0.3);
+    color: white;
+}
+
+.btn-lista-danger {
+    background: linear-gradient(135deg, var(--rosa), var(--rosa-claro));
+    color: white;
+}
+
+.btn-lista-danger:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(255, 0, 110, 0.3);
+    color: white;
+}
+
+.btn-lista-warning {
+    background: linear-gradient(135deg, #FFC107, #FFB300); /* Amarillo Bootstrap o parecido */
+    color: #212529; /* texto oscuro para contraste */
+}
+
+.btn-lista-warning:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(255, 193, 7, 0.3); /* sombra amarilla suave */
+    color: #212529;
+}
+
+
+
+/* Badges */
+.badge {
+    font-weight: 500;
+    padding: 0.35em 0.65em;
+    font-size: 0.85em;
+    transition: all 0.3s ease;
+}
+
+.badge:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.badge.bg-warning {
+    background-color: #FFC107 !important;
+    color: #212529 !important;
+}
+
+.badge.bg-success {
+    background: linear-gradient(135deg, var(--verde), var(--verde-claro)) !important;
+    color: white !important;
+}
+
+.badge.bg-danger {
+    background: linear-gradient(135deg, var(--rosa), var(--rosa-claro)) !important;
+    color: white !important;
+}
+
+
+/* Paginación */
+.paginacion-listado {
+    padding: 1rem 1.5rem;
+    background-color: var(--gris-claro);
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.paginacion-info {
+    color: var(--violeta-oscuro);
+    font-size: 0.9rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .lista-toolbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .lista-busqueda {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+    
+    .tabla-listado {
+        display: block;
+        overflow-x: auto;
+    }
+    
+    .paginacion-listado {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+}
+
+.grupo-botones {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.btn-lista {
+  padding: 6px 10px;
+  font-size: 0.9rem;
+  border-radius: 5px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Paginación */
+.pagination .page-item .page-link {
+    color: var(--violeta);
+    border: 1px solid rgba(123, 44, 191, 0.2);
+    margin: 0 5px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.pagination .page-item.active .page-link {
+    background: linear-gradient(135deg, var(--violeta), var(--rosa));
+    border-color: transparent;
+    color: white;
+}
+
+.pagination .page-item .page-link:hover {
+    background-color: rgba(123, 44, 191, 0.1);
+}
+

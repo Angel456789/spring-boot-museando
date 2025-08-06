@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Plataforma interactiva de experiencias culturales con tecnología IoT">
+    <meta name="author" content="TuNombre">
+    
+    <title>Lista Obras</title>
+    
+    <link rel="icon" href="favicon.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link th:href="@{/css/estilos.css}" rel="stylesheet">
+    <link th:href="@{/css/listas.css}" rel="stylesheet">
+</head>
+
+<body>
+      <div class="d-flex flex-column min-vh-100">
+    <!-- Barra de navegación -->
+    <header th:insert="~{fragmentos/menu :: menu-principal}"></header>
+
+    <!-- Contenido principal -->
+    <main class="container my-5">
+        <div class="lista-contenedor">
+            <div class="lista-header">
+                <h2><i class="fas fa-palette me-2"></i>Listado de Obras</h2>
+            </div>
+            <div class="lista-toolbar">
+				<a th:href="@{/obras/nueva}" class="btn-lista btn-lista-primary">
+				    <i class="fas fa-plus-circle me-1"></i> Nueva Obra
+				</a>
+            </div>
+            
+			<div th:if="${msg != null}" class='alert alert-success' th:text="${msg}" role='alert'></div>
+			
+            <table class="tabla-listado">
+                <thead>
+                    <tr>
+                        <th width="80">ID</th>
+                        <th>Título</th>
+                        <th>Autor</th>
+						<th>Sala</th>
+                        <th width="180" class="text-center">Operaciones</th>
+                    </tr>
+                </thead>
+				<tbody>
+				    <tr th:each="obra : ${obras}">
+				        <td th:text="${obra.id}"></td>
+				        <td><strong th:text="${obra.titulo}"></strong></td>
+				        <td th:text="${obra.autor}"></td>
+						<td th:text="${obra.sala.nombre}"></td>
+				        <td class="text-center">
+				           
+							<div class="grupo-botones">
+							    <a th:href="@{/obras/editar(id=${obra.id})}" class="btn-lista btn-lista-success" title="Editar obra">
+							        <i class="fas fa-edit"></i>
+							    </a>
+							    <a th:href="@{/obras/eliminar(id=${obra.id})}" class="btn-lista btn-lista-danger confirmar" title="Eliminar obra">
+							        <i class="fas fa-trash-alt"></i>
+							    </a>
+							    <a th:href="@{/obras/detalle(id=${obra.id})}" class="btn-lista btn-lista-secondary" title="Ver detalles de la obra">
+							        <i class="fas fa-eye"></i>
+							    </a>
+								<a th:href="@{/salas/detalle(id=${obra.sala.id})}" class="btn-lista btn-lista-info" title="Ver sala de la obra">
+								    <i class="fas fa-landmark"></i>
+								</a>
+							</div>
+
+				        </td>
+				    </tr>
+					<tr><td colspan="6" th:text="'Total: ' + ${total}"></td></tr>
+
+					
+					
+				</tbody>
+            </table>
+            
+			<nav th:if="${obras.totalPages > 0}" class="mt-4" aria-label="Paginación Obras">
+			    <ul class="pagination justify-content-center">
+
+			        <!-- Botón Anterior -->
+			        <li class="page-item" th:classappend="${obras.number == 0} ? 'disabled'">
+			            <a class="page-link" th:href="@{/obras/index(page=${obras.number - 1})}" tabindex="-1">Anterior</a>
+			        </li>
+
+			        <!-- Páginas numeradas -->
+			        <li class="page-item"
+			            th:each="i : ${#numbers.sequence(1, obras.totalPages)}"
+			            th:classappend="${i == obras.number + 1} ? 'active'">
+			            <a class="page-link"
+			               th:href="@{/obras/index(page=${i - 1})}"
+			               th:text="${i}">
+			            </a>
+			        </li>
+
+			        <!-- Botón Siguiente -->
+			        <li class="page-item" th:classappend="${obras.number == obras.totalPages - 1} ? 'disabled'">
+			            <a class="page-link" th:href="@{/obras/index(page=${obras.number + 1})}">Siguiente</a>
+			        </li>
+			    </ul>
+			</nav>
+        </div>
+    </main>
+
+     <!-- Footer -->
+    <footer class="footer" th:insert="~{fragmentos/pie :: pie-pagina}"></footer>
+</div>
+
+    <!-- Bootstrap JS y confirmación -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+		document.querySelectorAll('.confirmar').forEach(function(el) {
+		    el.addEventListener('click', function(e) {
+		        e.preventDefault();  // Evita la acción inmediata
+
+		        const href = el.getAttribute('href'); // Obtiene el enlace de eliminar
+
+		        Swal.fire({
+		            title: '¿Estás seguro?',
+		            text: 'Se eliminará esta obra. Esta acción no se puede deshacer.',
+		            icon: 'warning',
+		            showCancelButton: true,
+		            confirmButtonColor: '#d33',
+		            cancelButtonColor: '#3085d6',
+		            confirmButtonText: 'Sí, eliminar',
+		            cancelButtonText: 'Cancelar'
+		        }).then((result) => {
+		            if (result.isConfirmed) {
+		                window.location.href = href; // Redirige a la URL para eliminar
+		            }
+		        });
+		    });
+		});
+    </script>
+</body>
+</html> 

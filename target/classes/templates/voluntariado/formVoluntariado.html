@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="Plataforma interactiva de experiencias culturales con tecnología IoT">
+	<meta name="author" content="TuNombre">
+	<title>Formulario Voluntariado</title>
+
+	<link rel="icon" href="favicon.ico">
+	<link
+		href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+		rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+	<link th:href="@{/css/estilos.css}" rel="stylesheet">
+	<link th:href="@{/css/form.css}" rel="stylesheet">
+</head>
+
+<body>
+	<!-- Barra de navegación -->
+	<header th:insert="~{fragmentos/menu :: menu-principal}"></header>
+
+	<!-- Contenido principal -->
+	<main role="main" class="my-5 pt-4">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-lg-10">
+					<div class="formulario-contenedor card shadow-sm">
+						<div class="formulario-header card-header bg-primary text-white py-3">
+							<h4 class="mb-0">
+								<i class="fas fa-hands-helping me-2"></i>Solicitud de Voluntariado
+							</h4>
+						</div>
+						<div class="formulario-body card-body p-4">
+							<form th:action="@{/voluntariado/guardar}" th:object="${voluntariado}" method="post"
+								enctype="multipart/form-data" class="needs-validation" novalidate>
+
+								<!-- Sección 1: Información básica -->
+								<div class="form-section form-group">
+									<h5 class="form-section-title">
+										<i class="fas fa-info-circle"></i> Información del voluntariado
+									</h5>
+
+									
+									
+									<p class="mb-3">
+										Participar como voluntario en un museo te permite contribuir al desarrollo
+										cultural,
+										apoyar en actividades educativas, guiar a visitantes, colaborar en eventos y
+										formar parte
+										activa de la difusión del patrimonio. ¡Tu apoyo es valioso para conectar a más
+										personas con el arte, la historia y la ciencia!
+									</p>
+
+									<!-- Mensajes flash -->
+									<div th:if="${msg}" class="alert alert-success" th:text="${msg}"></div>
+									<div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+									
+									<br>
+									<!-- Aquí debes poner el div con th:if -->
+									    <div th:if="${museo != null}">
+									        <label class="form-label fw-semibold">Museo al que aplicas</label>
+									        <p class="fs-5 mb-0 d-flex align-items-center gap-2">
+									            <i class="fas fa-landmark text-primary"></i>
+									            <span th:text="${museo.nombre}">Nombre Museo</span>
+									        </p>
+									        <input type="hidden" name="idMuseo" th:value="${museo.id}" />
+									    </div>
+								</div>
+
+								<br>
+								<!-- Sección 2: Documentos -->
+								<div class="form-section form-group">
+									<h5 class="form-section-title">
+										<i class="fas fa-file-upload"></i> Documentos
+									</h5>
+									<div class="row g-3">
+										<div class="col-12">
+											<label for="archivo" class="form-label">Archivo de respaldo</label>
+											<!-- Así no haces binding directo -->
+											<!-- Usa otro name para que no choque con el binding automático -->
+											<input type="file" name="archivoAdjunto" class="form-control" id="archivo" required accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" />
+											<div class="form-text">Puedes subir: carta de motivos, CV, credencial, foto de perfil (PDF, DOC, DOCX, JPG, PNG)</div>
+											<div class="text-danger" th:if="${#fields.hasErrors('archivo')}"
+												th:errors="*{archivo}"></div>
+										</div>
+									</div>
+								</div>
+								<br>
+
+								<!-- Sección 3: Comentarios -->
+								<div class="form-section form-group">
+									<h5 class="form-section-title">
+										<i class="fas fa-comments"></i> Comentarios y motivos
+									</h5>
+									<div class="row g-3">
+										<div class="col-12">
+											<label for="comentarios" class="form-label">Comentarios</label>
+											<textarea th:field="*{comentarios}" class="form-control" id="comentarios" required
+											
+												rows="4"
+												placeholder="Describe tus motivos para ser voluntario, experiencia previa, disponibilidad, etc..."></textarea>
+											<div class="text-danger" th:if="${#fields.hasErrors('comentarios')}"
+												th:errors="*{comentarios}"></div>
+										</div>
+									</div>
+								</div>
+
+								<!-- Botones de acción -->
+								<div class="form-actions d-flex justify-content-between flex-wrap">
+									<button type="submit" class="btn btn-primary mb-2">
+										<i class="fas fa-save mr-2"></i> Enviar Solicitud
+									</button>
+									<button type="reset" class="btn btn-secondary mb-2">
+										<i class="fas fa-undo mr-2"></i> Limpiar
+									</button>
+									<a th:href="@{/museos/todos}" class="btn btn-outline-secondary mb-2">
+										<i class="fas fa-times mr-2"></i> Cancelar
+									</a>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+
+	<!-- Footer -->
+	<footer class="footer" th:insert="~{fragmentos/pie :: pie-pagina}"></footer>
+
+	<!-- Bootstrap JS -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="Plataforma interactiva de experiencias culturales con tecnología IoT">
+	<meta name="author" content="TuNombre">
+	<title>Formulario Sala</title>
+
+	<link rel="icon" href="favicon.ico">
+	<link
+		href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+		rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+	<link th:href="@{/css/estilos.css}" rel="stylesheet">
+	<link th:href="@{/css/form.css}" rel="stylesheet">
+</head>
+
+<body>
+	<!-- Barra de navegación -->
+	<header th:insert="~{fragmentos/menu :: menu-principal}"></header>
+
+	<!-- Contenido principal -->
+	<main role="main" class="my-5 pt-4">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-lg-8">
+					<div class="formulario-contenedor card shadow-sm">
+						<div class="formulario-header card-header bg-primary text-white py-3">
+							<h4 class="mb-0">
+								<i class="fas fa-door-open me-2"></i>Registro de Sala
+							</h4>
+						</div>
+						<div class="formulario-body card-body p-4">
+							<form th:action="@{/salas/guardar}" th:object="${sala}" method="POST"
+								class="needs-validation" novalidate>
+
+								<input type="hidden" th:field="*{id}" />
+
+								<!-- Información de la sala -->
+								<div class="form-section form-group">
+									<h5 class="form-section-title">
+										<i class="fas fa-info-circle"></i> Información de la sala
+									</h5>
+									<div class="row g-3">
+										<div class="col-12">
+											<label for="nombre" class="form-label">Nombre de la sala *</label>
+											<input type="text" class="form-control" th:field="*{nombre}"
+												placeholder="Ej. Sala de Arte Contemporáneo" required>
+											<div class="invalid-feedback">Por favor ingresa el nombre de la sala</div>
+										</div>
+
+										<div class="col-md-6">
+											<label for="idMuseo" class="form-label">Museo *</label>
+											<select class="form-select" th:field="*{museo.id}" required>
+												<option value="" disabled>Selecciona un museo</option>
+												<option th:each="museo : ${museos}" th:value="${museo.id}"
+													th:text="${museo.nombre}"
+													th:selected="${museo.id} == ${sala.museo?.id}">
+												</option>
+											</select>
+											<div class="invalid-feedback">Selecciona un museo</div>
+										</div>
+
+										<div class="col-md-6">
+											<label for="tipo" class="form-label">Tipo de sala *</label>
+											<select th:field="*{tipo}" class="form-select" id="tipo" name="tipo"
+												required>
+												<option value="" disabled>Selecciona el tipo</option>
+												<option th:each="t : ${T(com.museando.model.TipoSala).values()}"
+													th:value="${t}" th:text="${t}">Tipo</option>
+											</select>
+											<div class="invalid-feedback">Selecciona el tipo de sala</div>
+										</div>
+
+										<div class="col-12">
+											<label for="descripcion" class="form-label">Descripción</label>
+											<textarea class="form-control" th:field="*{descripcion}" rows="2"
+												maxlength="100"
+												placeholder="Breve descripción de la sala (máximo 100 caracteres)">
+											</textarea>
+											<div class="invalid-feedback">Por favor describe la sala</div>
+										</div>
+									</div>
+								</div>
+
+								<!-- Botones de acción -->
+								<div class="form-actions d-flex justify-content-between flex-wrap">
+									<button type="submit" class="btn btn-primary mb-2">
+										<i class="fas fa-save mr-2"></i>Guardar
+									</button>
+									<button type="reset" class="btn btn-secondary mb-2">
+										<i class="fas fa-undo mr-2"></i>Limpiar
+									</button>
+									<a th:href="@{/salas/paginado}" class="btn btn-outline-secondary mb-2">
+										<i class="fas fa-times mr-2"></i>Cancelar
+									</a>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+
+	<!-- Footer -->
+	<footer class="footer" th:insert="~{fragmentos/pie :: pie-pagina}"></footer>
+
+	<!-- Bootstrap JS -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,55 @@
+
+        .hover-effect {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .hover-effect:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .section-divider {
+            border-top: 2px solid #eee;
+            margin: 2rem 0;
+        }
+        .info-badge {
+            font-size: 0.9rem;
+            padding: 0.5rem 0.8rem;
+        }
+        .expo-card {
+            border-left: 4px solid #0d6efd;
+        }
+        .event-card {
+            border-left: 4px solid #fd7e14;
+        }
+        .rating-stars {
+            color: #ffc107;
+            font-size: 1.2rem;
+        }
+        .review-card {
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .review-photo {
+            height: 100px;
+            object-fit: cover;
+            cursor: pointer;
+        }
+		.carousel-img {
+		    height: 320px;
+		    object-fit: cover;
+		    max-width: 100%;  /* que no se salga del contenedor */
+		    width: auto;      /* ancho automático para mantener proporción */
+		}
+
+		#carouselGaleriaMuseo {
+		    max-width: 600px;  /* limita el ancho del carrusel */
+		    margin-left: auto;
+		    margin-right: auto; /* centra horizontalmente */
+		}
+
+		@media (max-width: 768px) {
+		    .carousel-img {
+		        height: 250px;
+		    }
+		}
+
+        

@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="Plataforma interactiva de experiencias culturales con tecnología IoT">
+	<meta name="author" content="TuNombre">
+
+	<title>Detalle Sala</title>
+
+	<link rel="icon" href="favicon.ico">
+	<link
+		href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+		rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+	<link href="css/detalle.css" rel="stylesheet">
+	<link th:href="@{/css/estilos.css}" rel="stylesheet">
+</head>
+
+<body>
+	<div class="d-flex flex-column min-vh-100">
+		<!-- Barra de navegación -->
+		<header th:insert="~{fragmentos/menu :: menu-principal}"></header>
+
+		<!-- Contenido principal -->
+		<main class="container my-4 pt-5">
+			<div class="row justify-content-center">
+				<div class="col-lg-10">
+					<!-- Tarjeta principal -->
+					<div class="card shadow-lg p-4 mb-4 rounded">
+						<div class="row g-4 align-items-center">
+							<!-- Información principal -->
+							<div class="col-md-12">
+								<h1 class="card-title text-primary mb-3" th:text="${sala.nombre}"></h1>
+
+								<div class="info-section">
+									<p class="fs-5 mb-2">
+										<i class="fas fa-building me-2 text-success"></i>
+										<strong>Museo:</strong> <span th:text="${sala.museo.nombre}"></span>
+									</p>
+
+									<p class="fs-5 mb-2">
+										<i class="fas fa-tag me-2 text-info"></i>
+										<strong>Tipo:</strong>
+										<span
+											th:class="'badge ' + (${sala.tipo.name()} == 'Permanente' ? 'bg-success' : 'bg-warning')"
+											th:text="${sala.tipo}">Tipo</span>
+									</p>
+
+									<p class="fs-5">
+										<i class="fas fa-palette me-2 text-warning"></i>
+										<strong>Total de Obras:</strong> <span th:text="${obras.size()}"></span> obras
+									</p>
+
+								</div>
+
+								<hr class="my-3">
+
+								<h4 class="mb-3">Descripción</h4>
+								<p class="fs-6 text-secondary" th:text="${sala.descripcion}"></p>
+							</div>
+						</div>
+					</div>
+
+
+					<!-- Obras de la sala -->
+					<div class="row g-4 mt-4">
+						<div class="col-12">
+							<div class="card hover-effect">
+								<div class="card-body">
+									<h4 class="card-title text-primary mb-4">
+										<i class="fas fa-palette me-2"></i>Obras en esta Sala
+									</h4>
+									<div class="row">
+
+										<div class="col-md-6 col-lg-4 mb-3" th:each="obra : ${obras}">
+											<div class="card border-primary h-100">
+
+												<!-- Si la obra TIENE imagen -->
+												<img th:if="${obra.imagen != null}"
+													th:src="@{'/obras/' + ${obra.imagen}}" class="card-img-top"
+													alt="Imagen de [[${obra.titulo}]]"
+													style="height: 200px; object-fit: cover;" />
+
+												<!-- Si la obra NO tiene imagen -->
+												<div th:unless="${obra.imagen != null}"
+													class="card-img-top d-flex align-items-center justify-content-center bg-light text-muted"
+													style="height: 200px; object-fit: cover; border: 1px solid #dee2e6;">
+													<p class="fst-italic m-0 text-center">Sin imagen disponible</p>
+												</div>
+
+												<div class="card-body">
+													<h6 class="card-title" th:text="${obra.titulo}">Título</h6>
+													<p class="card-text small">
+														<strong>Autor:</strong> <span th:text="${obra.autor}"></span>
+													</p>
+													<a th:href="@{/obras/detalle(id=${obra.id})}"
+														class="btn btn-primary btn-sm">Ver Obra</a>
+												</div>
+											</div>
+										</div>
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</main>
+
+		<!-- Footer -->
+		<footer class="footer" th:insert="~{fragmentos/pie :: pie-pagina}"></footer>
+	</div>
+
+	<!-- Bootstrap JS -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>

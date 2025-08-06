@@ -1,0 +1,672 @@
+:root {
+    /* Paleta de colores vibrantes con degradados */
+    --violeta: #7B2CBF;
+    --violeta-oscuro: #5A189A;
+    --amarillo: #FFBE0B;
+    --amarillo-claro: #FFD700;
+    --rosa: #d2216e;
+    --rosa-claro: #da3889d5;
+    --azul: #3e80eb;
+    --azul-claro: #00B4D8;
+    --verde: #50be1d;
+    --verde-claro: #83bd49;
+    --blanco: #FFFFFF;
+    --negro: #000000;
+    --gris-claro: #F5F5F5;
+}
+
+/* General container for notifications */
+.notifications-container {
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    padding: 30px;
+}
+
+.notifications-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.notifications-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 0;
+    font-size: 1.8rem;
+}
+
+/* Notification Feed */
+.notification-feed {
+    display: grid;
+    gap: 20px; /* Space between cards */
+}
+
+/* Individual Notification Card */
+.notification-card {
+    display: flex;
+    align-items: flex-start; /* Align content to the top */
+    background-color: #f8f9fa; /* Light background for cards */
+    border: 1px solid #e9ecef;
+    border-left: 5px solid; /* For status indicator */
+    border-radius: 8px;
+    padding: 20px;
+    transition: all 0.2s ease-in-out;
+    position: relative; /* For the subtle dot */
+}
+
+.notification-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.08);
+}
+
+.notification-icon {
+    font-size: 1.8rem;
+    margin-right: 15px;
+    flex-shrink: 0; /* Prevent icon from shrinking */
+}
+
+.notification-content {
+    flex-grow: 1;
+}
+
+.notification-title {
+    font-weight: 600;
+    margin-bottom: 5px;
+    font-size: 1.1rem;
+    color: #343a40;
+}
+
+.notification-detail {
+    margin-bottom: 3px;
+    font-size: 0.95rem;
+    color: #555;
+}
+
+.notification-meta {
+    font-size: 0.85rem;
+    color: #888;
+    margin-top: 10px; /* Space from details */
+}
+
+/* Status-specific styling */
+.card-accepted {
+    border-color: #28a745; /* Green for accepted */
+    background-color: #e6ffe6; /* Lighter green background */
+}
+.card-rejected {
+    border-color: #dc3545; /* Red for rejected */
+    background-color: #ffe6e6; /* Lighter red background */
+}
+.card-pending {
+    border-color: #ffc107; /* Yellow for pending */
+    background-color: #fff9e6; /* Lighter yellow background */
+}
+
+/* Text color adjustments for alerts within cards */
+.card-accepted .notification-title { color: #218838; } /* Darker green for text */
+.card-rejected .notification-title { color: #c82333; } /* Darker red for text */
+.card-pending .notification-title { color: #d39e00; } /* Darker yellow for text */
+
+
+/* Dot for unread/new notifications (optional) */
+.notification-card.unread::before {
+    content: '';
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 8px;
+    height: 8px;
+    background-color: #007bff; /* Blue dot for unread */
+    border-radius: 50%;
+}
+
+/* Empty State Styling */
+.empty-state {
+    text-align: center;
+    padding: 50px;
+    border: 2px dashed #e0e0e0;
+    border-radius: 10px;
+    color: #6c757d;
+    background-color: #fdfdfd;
+}
+
+.empty-state i {
+    color: #ced4da;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .notification-card {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 15px;
+    }
+    .notification-icon {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+}
+
+/* Estilos generales */
+body {
+    font-family: 'Poppins', sans-serif;
+    color: var(--negro);
+    background-color: var(--gris-claro);
+    padding-top: 72px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+/* Barra de navegación con degradado diagonal */
+.navbar {
+    background: linear-gradient(135deg, var(--azul) 0%, var(--rosa) 50%, var(--amarillo) 100%) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    border-bottom: 3px solid rgba(255,255,255,0.2);
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: 700;
+    background: linear-gradient(to right, var(--blanco), var(--amarillo-claro));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.nav-link {
+    font-weight: 500;
+    position: relative;
+    color: var(--blanco) !important;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--amarillo), var(--rosa));
+    transition: width 0.3s ease;
+    border-radius: 2px;
+}
+
+.nav-link:hover::after,
+.nav-item.active .nav-link::after {
+    width: 100%;
+}
+
+
+
+
+/* Botones personalizados con degradados y efectos */
+.btn-yellow {
+    background: linear-gradient(135deg, var(--amarillo) 0%, var(--amarillo-claro) 100%);
+    color: var(--negro);
+    border: none;
+    box-shadow: 0 4px 8px rgba(255, 190, 11, 0.3);
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+.btn-yellow:hover {
+    background: linear-gradient(135deg, var(--amarillo-claro) 0%, var(--amarillo) 100%);
+    color: var(--negro);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(255, 190, 11, 0.4);
+}
+
+.btn-pink {
+    background: linear-gradient(135deg, var(--rosa) 0%, var(--rosa-claro) 100%);
+    color: white;
+    border: none;
+    box-shadow: 0 4px 8px rgba(255, 0, 110, 0.3);
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+.btn-pink:hover {
+    background: linear-gradient(135deg, var(--rosa-claro) 0%, var(--rosa) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(255, 0, 110, 0.4);
+}
+
+.btn-blue {
+    background: linear-gradient(135deg, var(--azul) 0%, var(--azul-claro) 100%);
+    color: white;
+    border: none;
+    box-shadow: 0 4px 8px rgba(58, 134, 255, 0.3);
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+.btn-blue:hover {
+    background: linear-gradient(135deg, var(--azul-claro) 0%, var(--azul) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(58, 134, 255, 0.4);
+}
+
+.btn-purple {
+    background: linear-gradient(135deg, var(--violeta) 0%, var(--rosa) 100%);
+    color: white;
+    border: none;
+    box-shadow: 0 4px 8px rgba(123, 44, 191, 0.3);
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+.btn-purple:hover {
+    background: linear-gradient(135deg, var(--rosa) 0%, var(--violeta) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(123, 44, 191, 0.4);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--violeta) 0%, var(--azul) 100%);
+    border: none;
+    box-shadow: 0 4px 8px rgba(123, 44, 191, 0.3);
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, var(--azul) 0%, var(--violeta) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(123, 44, 191, 0.4);
+}
+
+/* Carrusel con efectos mejorados */
+.carousel {
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
+    border: 3px solid rgba(255,255,255,0.3);
+}
+
+.carousel-item {
+    height: 500px;
+    transition: transform 0.6s ease-in-out;
+}
+
+.carousel-item img {
+    object-fit: cover;
+    height: 100%;
+    filter: brightness(0.7) contrast(1.1);
+    transition: transform 0.5s ease;
+}
+
+.carousel:hover .carousel-item img {
+    transform: scale(1.02);
+}
+
+.carousel-caption {
+    bottom: 30%;
+    text-align: left;
+    padding: 2rem;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 12px;
+    backdrop-filter: blur(8px);
+    border-left: 4px solid var(--amarillo);
+    transition: all 0.5s ease;
+}
+
+.carousel:hover .carousel-caption {
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.carousel-caption h2 {
+    background: linear-gradient(to right, var(--amarillo), var(--rosa));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    display: inline-block;
+}
+
+.carousel-indicators [data-bs-target] {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.5);
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.carousel-indicators [data-bs-target]:hover {
+    background-color: var(--amarillo);
+    transform: scale(1.2);
+}
+
+.carousel-indicators .active {
+    background-color: var(--amarillo);
+    transform: scale(1.2);
+    border-color: var(--blanco);
+}
+
+/* Barra de búsqueda con degradado llamativo */
+.search-jumbotron {
+    background: linear-gradient(135deg, var(--azul) 0%, var(--rosa) 50%, var(--amarillo) 100%);
+    color: white;
+    box-shadow: 0 12px 24px rgba(58, 134, 255, 0.3);
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+}
+
+.search-jumbotron::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+    z-index: -1;
+}
+
+.search-jumbotron .input-group-text {
+    background-color: rgba(255,255,255,0.9);
+    border-right: none;
+    color: var(--rosa);
+    font-weight: bold;
+}
+
+.search-jumbotron .form-control {
+    border-left: none;
+    background-color: rgba(255,255,255,0.9);
+    font-weight: 500;
+}
+
+.search-jumbotron .form-control:focus {
+    box-shadow: 0 0 0 0.25rem rgba(255, 190, 11, 0.145);
+}
+
+.search-jumbotron .form-select {
+    background-color: rgba(255,255,255,0.9);
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.search-jumbotron .form-select:focus {
+    box-shadow: 0 0 0 0.25rem rgba(255, 0, 110, 0.25);
+}
+
+/* Exposiciones destacadas con efectos */
+.section-title {
+    position: relative;
+    display: inline-block;
+    background: linear-gradient(135deg, var(--azul), var(--rosa), var(--amarillo));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    padding-bottom: 10px;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--azul), var(--rosa), var(--amarillo));
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.exposicion-card {
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    border-radius: 16px !important;
+    overflow: hidden;
+    border: none;
+    background: var(--blanco);
+}
+
+.exposicion-card:hover {
+    transform: translateY(-10px) scale(1.01);
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.15);
+}
+
+.exposicion-card .card-title {
+    background: linear-gradient(to right, var(--azul), var(--rosa));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.expo-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: white;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.bg-pink {
+    background: linear-gradient(135deg, var(--rosa), var(--rosa-claro));
+}
+
+.bg-yellow {
+    background: linear-gradient(135deg, var(--amarillo), var(--amarillo-claro));
+    color: var(--negro) !important;
+}
+
+.bg-green {
+    background: linear-gradient(135deg, var(--verde), var(--verde-claro));
+}
+
+.bg-blue {
+    background: linear-gradient(135deg, var(--azul), var(--azul-claro));
+}
+
+/* Footer con degradado */
+.footer {
+    background: linear-gradient(135deg, var(--azul) 0%, var(--rosa) 50%, var(--amarillo) 100%);
+    color: white;
+    position: relative;
+    overflow: hidden;
+    margin-top: auto; /* Esto empuja el footer hacia abajo */
+    width: 100%;
+}
+
+.footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 80% 20%, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+    z-index: 0;
+}
+
+.footer h3, .footer h5 {
+    position: relative;
+    z-index: 1;
+}
+
+.hover-yellow {
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+}
+
+.hover-yellow:hover {
+    color: var(--amarillo) !important;
+    transform: translateX(5px);
+}
+
+.hover-yellow::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--amarillo);
+    transition: width 0.3s ease;
+}
+
+.hover-yellow:hover::after {
+    width: 100%;
+}
+
+.social-icons a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 1;
+}
+
+.social-icons a:hover {
+    transform: translateY(-5px) scale(1.1);
+    background: rgba(255,255,255,0.2);
+    color: var(--amarillo) !important;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+}
+
+/* Efectos de hover para las cards de exposición */
+.exposicion-card .img-fluid {
+    transition: transform 0.5s ease;
+}
+
+.exposicion-card:hover .img-fluid {
+    transform: scale(1.05);
+}
+
+/* Badges con efecto */
+.badge {
+    transition: all 0.3s ease;
+}
+
+.badge:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+
+.imagen-museo {
+  width: 100px;         /* Tamaño fijo horizontal */
+  height: 70px;         /* Tamaño fijo vertical */
+  object-fit: cover;    /* Mantiene proporción, recorta si es necesario */
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+
+
+/* Responsive */
+@media (max-width: 768px) {
+    .carousel-item {
+        height: 400px;
+    }
+    
+    .carousel-caption {
+        bottom: 20%;
+        padding: 1rem;
+    }
+    
+    .carousel-caption h2 {
+        font-size: 1.8rem;
+    }
+    
+    .carousel-caption .btn {
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+    }
+    
+    .exposicion-card .col-md-5 {
+        height: 200px;
+    }
+    
+    .search-jumbotron {
+        padding: 2rem 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .carousel-item {
+        height: 300px;
+    }
+    
+    .carousel-caption {
+        bottom: 10%;
+    }
+    
+    .carousel-caption h2 {
+        font-size: 1.5rem;
+    }
+    
+    .carousel-caption p {
+        display: none;
+    }
+    
+    .navbar-brand {
+        font-size: 1.3rem;
+    }
+    
+    .section-title {
+        font-size: 1.8rem;
+    }
+}
+
+
+
+.select-museo {
+  border: 2px solid var(--azul);
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-size: 1rem;
+  background-color: var(--blanco);
+  font-weight: 500;
+  color: var(--negro);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+}
+
+.select-museo:focus {
+  border-color: var(--rosa);
+  box-shadow: 0 0 0 0.25rem rgba(210, 33, 110, 0.2);
+}
+
+
+.card-text {
+    height: 50px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+input.form-control:focus {
+  border-color: var(--rosa) !important;
+  box-shadow: 0 0 8px var(--rosa);
+  outline: none;
+}
+

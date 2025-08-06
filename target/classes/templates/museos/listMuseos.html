@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="Plataforma interactiva de experiencias culturales con tecnología IoT">
+	<meta name="author" content="TuNombre">
+
+	<title>Lista Museos</title>
+
+	<link rel="icon" href="favicon.ico">
+	<link
+		href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+		rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+	<link th:href="@{/css/estilos.css}" rel="stylesheet">
+	<link th:href="@{/css/listas.css}" rel="stylesheet">
+</head>
+
+<body>
+	<div class="d-flex flex-column min-vh-100">
+		<!-- Barra de navegación -->
+		<header th:insert="~{fragmentos/menu :: menu-principal}"></header>
+
+
+		<!-- Contenido principal -->
+		<main class="container my-5">
+			<div class="lista-contenedor">
+				<div class="lista-header">
+					<h2><i class="fas fa-landmark me-2"></i>Listado de Museos</h2>
+				</div>
+				<div class="lista-toolbar">
+					<a th:href="@{/museos/nueva}" class="btn-lista btn-lista-primary">
+						<i class="fas fa-plus-circle me-1"></i> Nuevo Museo
+					</a>
+				</div>
+
+				<div th:if="${msg != null}" class='alert alert-success' th:text="${msg}" role='alert'></div>
+				<div th:if="${error != null}" class='alert alert-danger' th:text="${error}" role='alert'></div>
+
+
+				<table class="tabla-listado">
+					<thead>
+						<tr>
+							<th width="80">ID</th>
+							<th>Nombre</th>
+							<th>Categoria</th>
+							<th>Estatus</th>
+							<th scope="col">Destacada</th>
+							<th width="180" class="text-center">Operaciones</th>
+						</tr>
+					</thead>
+
+					<tbody>
+
+						<tr th:each="museo: ${museos}">
+
+							<td th:text="${museo.id}"></td>
+							<td th:text="${museo.nombre}"></td>
+							<td th:text="${museo.categoria.nombre}"></td>
+							<td th:text="${museo.estatus}"></td>
+							<td>
+								<span th:text="${museo.destacado == 1} ? 'Sí' : 'No'"
+									th:classappend="${museo.destacado == 1} ? 'text-success' : 'text-danger'"></span>
+							</td>
+							<td class="text-center">
+								<div class="grupo-botones">
+									<a th:href="@{/galeria/museo/{id}(id=${museo.id})}" class="btn-lista btn-lista-info"
+										title="Ver galería">
+										<i class="fas fa-images"></i>
+									</a>
+									<a th:href="@{/museos/editar(id=${museo.id})}" class="btn-lista btn-lista-success"
+										title="Editar"><i class="fas fa-edit"></i></a>
+									<a th:href="@{/museos/eliminar(id=${museo.id})}"
+										class="btn-lista btn-lista-danger confirmar" title="Eliminar">
+										<i class="fas fa-trash-alt"></i>
+									</a>
+									<a th:href="@{/museos/detalle(id=${museo.id})}" class="btn btn-success btn-sm"
+										role="button" title="Detalle."><i class="fas fa-file-alt"
+											aria-hidden="true"></i></a>
+								</div>
+							</td>
+						</tr>
+
+						<tr>
+							<td colspan="6" th:text="'Total: ' + ${total}"></td>
+						</tr>
+
+					</tbody>
+				</table>
+				<!-- Paginación para muchas imágenes de categorías -->
+				<nav th:if="${museos.totalPages > 0}" class="mt-4" aria-label="Paginacion Museos">
+					<ul class="pagination justify-content-center">
+						<!-- Botón Anterior -->
+						<li class="page-item" th:classappend="${museos.number == 0} ? 'disabled'">
+							<a class="page-link" th:href="@{/museos/paginado(page=${museos.number - 1})}"
+								tabindex="-1">Anterior</a>
+						</li>
+
+						<!-- Páginas numeradas -->
+						<li class="page-item" th:each="i : ${#numbers.sequence(1, museos.totalPages)}"
+							th:classappend="${i == museos.number + 1} ? 'active'">
+							<a class="page-link" th:href="@{/museos/paginado(page=${i - 1})}" th:text="${i}">
+							</a>
+						</li>
+
+						<!-- Botón Siguiente -->
+						<li class="page-item" th:classappend="${museos.number == museos.totalPages - 1} ? 'disabled'">
+							<a class="page-link" th:href="@{/museos/paginado(page=${museos.number + 1})}">Siguiente</a>
+						</li>
+					</ul>
+				</nav>
+
+			</div>
+		</main>
+
+		<!-- Footer -->
+		<footer class="footer" th:insert="~{fragmentos/pie :: pie-pagina}"></footer>
+	</div>
+
+	<!-- Bootstrap JS y confirmación -->
+	<script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+	<!-- SweetAlert2 -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+			document.querySelectorAll('.confirmar').forEach(function (el) {
+				el.addEventListener('click', function (e) {
+					e.preventDefault();
+
+					const href = el.getAttribute('href');
+
+					Swal.fire({
+						title: '¿Estás seguro?',
+						text: 'Se eliminará esta sala junto con todas sus obras asociadas. Esta acción no se puede deshacer.',
+						icon: 'warning',
+						showCancelButton: true,
+						confirmButtonColor: '#d33',
+						cancelButtonColor: '#3085d6',
+						confirmButtonText: 'Sí, eliminar',
+						cancelButtonText: 'Cancelar'
+					}).then((result) => {
+						if (result.isConfirmed) {
+							window.location.href = href;
+						}
+					});
+				});
+			});
+		});
+	</script>
+
+</body>
+
+</html>

@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="Plataforma interactiva de experiencias culturales con tecnología IoT">
+	<meta name="author" content="TuNombre">
+
+	<title>Detalle Museo</title>
+
+	<link rel="icon" href="favicon.ico">
+	<link
+		href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+		rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+	<link th:href="@{/css/estilos.css}" rel="stylesheet">
+	<link th:href="@{/css/detalle.css}" rel="stylesheet">
+	<style>
+		.carousel-img {
+			height: 350px;
+			object-fit: cover;
+			border-radius: 8px;
+		}
+
+		.hover-effect {
+			transition: all 0.3s ease;
+			border-radius: 10px;
+		}
+
+		.hover-effect:hover {
+			transform: translateY(-5px);
+			box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+		}
+
+		.info-section {
+			border-left: 4px solid #0d6efd;
+			padding-left: 15px;
+			margin-bottom: 20px;
+		}
+
+		.info-badge {
+			min-width: 100px;
+			text-align: right;
+		}
+
+		.schedule-day {
+			font-weight: 500;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="d-flex flex-column min-vh-100">
+
+		<!-- Barra de navegación -->
+		<header th:insert="~{fragmentos/menu :: menu-principal}"></header>
+
+		<!-- Contenido principal -->
+		<main class="container my-4 pt-5">
+			<div class="row justify-content-center">
+				<div class="col-lg-10">
+					<!-- Tarjeta principal -->
+					<div class="card shadow-lg p-4 mb-4 rounded">
+						<div class="row g-4 align-items-center">
+							<div class="col-md-5 text-center">
+								<img th:if="${museo.imagen != null}" th:src="@{'/logos/' + ${museo.imagen}}"
+									class="rounded mx-auto d-block" alt="Imagen del museo" width="300" height="300" />
+							</div>
+
+							<!-- Información principal -->
+							<div class="col-md-7">
+								<h1 class="card-title text-primary mb-3"><strong th:text="${museo.nombre}">Museo de Arte
+										Moderno</strong></h1>
+
+								<div class="info-section">
+									<p class="fs-5 mb-2">
+										<i class="fas fa-map-marker-alt me-2 text-danger"></i>
+										<strong>Dirección:</strong> <span
+											th:text="${museo.ubicacion.calle + ' ' + museo.ubicacion.numeroExterior + ', ' + museo.ubicacion.colonia + ', ' + museo.ubicacion.municipio + ', ' + museo.ubicacion.estado + ', ' + museo.ubicacion.codigoPostal}"></span>
+									</p>
+									<p class="fs-5 mb-2">
+										<i class="fas fa-tags me-2 text-success"></i>
+										<strong>Categoría:</strong> <span th:text="${museo.categoria.nombre}"></span>
+									</p>
+									<p class="fs-5">
+										<i class="fas fa-calendar-alt me-2 text-info"></i>
+										<strong>Fundación:</strong> <span
+											th:text="${#temporals.format(museo.fechaFundacion, 'dd MMMM yyyy')}"></span>
+									</p>
+									<p class="fs-5 mb-2">
+										<i class="fas fa-check-circle me-2 text-primary"></i>
+										<strong>Estatus:</strong> <span th:text="${museo.estatus}"></span>
+									</p>
+									<p class="fs-5 mb-2">
+										<i class="fas fa-star me-2 text-warning"></i>
+										<strong>Destacado:</strong> <span
+											th:text="${museo.destacado == 1 ? 'Sí' : 'No'}"></span>
+									</p>
+								</div>
+
+								<hr class="my-3">
+
+								<h4 class="mb-3">Descripción</h4>
+								<p class="fs-6 text-secondary">
+									<span th:text="${museo.descripcion}"></span>
+								</p>
+							</div>
+						</div>
+					</div>
+
+					<!-- Sección de información detallada -->
+					<div class="row g-4">
+						<div class="col-12">
+							<div class="card hover-effect mb-4 shadow-sm border-0">
+								<div class="card-body">
+									<h4 class="card-title text-primary mb-3">
+										<i class="fas fa-info-circle me-2"></i>Información de contacto
+									</h4>
+									<div class="row mb-3">
+										<div class="col-md-4 mb-2">
+											<div class="d-flex align-items-center">
+												<i class="fas fa-phone me-2 text-primary"></i>
+												<span class="fw-semibold">Teléfono:</span>
+											</div>
+											<span class="text-dark ms-4" th:text="${museo.telefono}"></span>
+										</div>
+										<div class="col-md-4 mb-2">
+											<div class="d-flex align-items-center">
+												<i class="fas fa-envelope me-2 text-primary"></i>
+												<span class="fw-semibold">Correo:</span>
+											</div>
+											<span class="text-dark ms-4" th:text="${museo.correo}"></span>
+										</div>
+										<div class="col-md-4 mb-2">
+											<div class="d-flex align-items-center">
+												<i class="fas fa-globe me-2 text-primary"></i>
+												<span class="fw-semibold">Sitio web:</span>
+											</div>
+											<a th:href="${museo.sitioWeb}" target="_blank" th:text="${museo.sitioWeb}"
+												class="ms-4 text-decoration-underline text-primary"></a>
+										</div>
+									</div>
+									<hr class="my-3">
+									<div class="row mb-3">
+										<div class="col-md-6 mb-2">
+											<h5 class="text-success mb-2"><i class="fas fa-ticket-alt me-2"></i>Costos
+											</h5>
+											<div class="bg-light rounded p-2 border">
+												<span class="fw-semibold text-dark" th:utext="${museo.costos}"></span>
+											</div>
+										</div>
+										<div class="col-md-6 mb-2">
+											<h5 class="text-info mb-2"><i class="far fa-clock me-2"></i>Horario</h5>
+											<div class="bg-light rounded p-2 border">
+												<span class="fw-semibold text-dark" style="white-space: pre-line;"
+													th:text="${museo.horario}"></span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Carrusel con imagen principal y galería -->
+					<div class="row g-4 mt-4">
+						<div class="col-12">
+							<div class="card hover-effect">
+								<div class="card-body">
+									<h4 class="card-title text-primary mb-4">
+										<i class="fas fa-images me-2"></i>Galería de imágenes
+									</h4>
+
+									<div th:if="${museo.imagen != null or (imagenes != null and !imagenes.isEmpty())}">
+										<div id="carouselGaleriaMuseo" class="carousel slide" data-bs-ride="carousel">
+											<div class="carousel-inner">
+
+												<!-- Imagen principal como primer slide activo -->
+												<div class="carousel-item active" th:if="${museo.imagen != null}">
+													<img th:src="@{'/logos/' + ${museo.imagen}}"
+														class="d-block w-100 carousel-img"
+														alt="Imagen principal museo" />
+												</div>
+
+												<!-- Slides de imágenes de galería -->
+												<div class="carousel-item" th:each="img, iterStat : ${imagenes}"
+													th:classappend="${iterStat.index == 0 and museo.imagen == null} ? ' active'">
+													<img th:src="@{'/galeria/' + ${img.imagen}}"
+														class="d-block w-100 carousel-img" alt="Imagen galería museo" />
+												</div>
+											</div>
+
+											<!-- Controles -->
+											<button class="carousel-control-prev" type="button"
+												data-bs-target="#carouselGaleriaMuseo" data-bs-slide="prev">
+												<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+												<span class="visually-hidden">Anterior</span>
+											</button>
+											<button class="carousel-control-next" type="button"
+												data-bs-target="#carouselGaleriaMuseo" data-bs-slide="next">
+												<span class="carousel-control-next-icon" aria-hidden="true"></span>
+												<span class="visually-hidden">Siguiente</span>
+											</button>
+
+											<!-- Indicadores -->
+											<div class="carousel-indicators">
+												<!-- Indicador para imagen principal -->
+												<button type="button" data-bs-target="#carouselGaleriaMuseo"
+													data-bs-slide-to="0" class="active" aria-current="true"
+													aria-label="Slide 1" th:if="${museo.imagen != null}"></button>
+												<!-- Indicadores para cada imagen de galería -->
+												<button type="button" th:each="img, iterStat : ${imagenes}"
+													data-bs-target="#carouselGaleriaMuseo"
+													th:data-bs-slide-to="${museo.imagen != null ? iterStat.index + 1 : iterStat.index}"
+													aria-label="Slide [[${iterStat.index + 2}]]"></button>
+											</div>
+										</div>
+									</div>
+
+									<div th:if="${(museo.imagen == null) and (imagenes == null or imagenes.isEmpty())}"
+										class="alert alert-warning">
+										No hay imágenes disponibles para este museo.
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Salas del Museo -->
+					<div class="row g-4 mt-4">
+						<div class="col-12">
+							<div class="card hover-effect">
+								<div class="card-body">
+									<h4 class="card-title text-primary mb-4">
+										<i class="fas fa-door-open me-2"></i>Salas del Museo
+									</h4>
+									<div class="row">
+										
+										<div class="col-md-6 mb-3" th:each="sala : ${salas}">
+											<div class="card border-primary">
+												<div class="card-body">
+													<h5 class="card-title" th:text="${sala.nombre}"></h5>
+													<p class="card-text" th:text="${sala.descripcion}"></p>
+													<a th:href="@{/salas/detalle(id=${sala.id})}"
+														class="btn btn-primary btn-sm">Ver Detalles</a>
+												</div>
+											</div>
+										</div>
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</main>
+
+		<!-- Footer -->
+		<footer class="footer" th:insert="~{fragmentos/pie :: pie-pagina}"></footer>
+	</div>
+
+	<!-- Bootstrap JS -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+	<script>
+		// Efecto hover para las tarjetas
+		document.querySelectorAll('.hover-effect').forEach(card => {
+			card.addEventListener('mouseenter', () => {
+				card.style.transform = 'translateY(-5px)';
+				card.style.boxShadow = '0 10px 20px rgba(0,0,0,0.1)';
+			});
+			card.addEventListener('mouseleave', () => {
+				card.style.transform = 'translateY(0)';
+				card.style.boxShadow = '';
+			});
+		});
+	</script>
+</body>
+
+</html>
